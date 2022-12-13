@@ -12,6 +12,7 @@ import (
 )
 
 type Scanner struct {
+	Gopath     string
 	ModPath    string
 	ProjectSum string
 }
@@ -31,7 +32,7 @@ func InitScanner() (*Scanner, error) {
 		return nil, fmt.Errorf("error opening mod file: %v", sum)
 	}
 
-	return &Scanner{ModPath: modPath, ProjectSum: string(sum)}, nil
+	return &Scanner{Gopath: gopath, ModPath: modPath, ProjectSum: string(sum)}, nil
 }
 
 // DependencyCheck first conforms the dependency string provided by ScanPath into the correct format for
