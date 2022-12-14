@@ -20,6 +20,8 @@ type Scanner struct {
 	DstPath       string
 	ProjectSum    string
 	Licensecanned bool
+	Exclusions    Exclusions
+	Licenses      Licenses
 	LicenseType   map[string][]string
 }
 
@@ -44,7 +46,17 @@ func InitScanner() (*Scanner, error) {
 		return nil, fmt.Errorf("error opening mod file: %v", sum)
 	}
 
-	return &Scanner{Gopath: gopath, ModPath: modPath, DstPath: dstpath, ProjectSum: string(sum), Licensecanned: false, LicenseType: make(map[string][]string)}, nil
+	excls, err := InitExclusions(gopath)
+	if err != nil {
+		return nil, err
+	}
+
+	licenses, err := InitLicense(gopath)
+	if err != nil {
+		return nil, err
+	}
+
+	return &Scanner{Gopath: gopath, ModPath: modPath, DstPath: dstpath, ProjectSum: string(sum), Licensecanned: false, Licenses: licenses, Exclusions: excls, LicenseType: make(map[string][]string)}, nil
 }
 
 // DependencyCheck first conforms the dependency string provided by ScanPath into the correct format for
@@ -89,7 +101,10 @@ func (s *Scanner) ScanPath() error {
 		if toScan == "" {
 			continue
 		}
-		filepath.Walk(toScan, s.FileWalk)
+		err := filepath.Walk(toScan, s.FileWalk)
+		if err != nil {
+			return err
+		}
 		if !s.Licensecanned {
 			_, ok := s.LicenseType[NoLicense]
 			if !ok {
@@ -104,7 +119,6 @@ func (s *Scanner) ScanPath() error {
 	if err != nil {
 		return err
 	}
-	//fmt.Println(s.LicenseType)
 	return nil
 }
 
@@ -112,38 +126,30 @@ func (s *Scanner) FileWalk(path string, info fs.FileInfo, err error) error {
 	if err != nil {
 		return fmt.Errorf("error with file walk: %v", err)
 	}
-	if !IsLicenseFile(info.Name()) {
+	if !IsLicenseFile(path) {
 		return nil
 	}
 	s.Licensecanned = true
-	excls, err := InitExclusions(*s)
-	if err != nil {
-		return err
-	}
-	_, ok := excls[info.Name()]
+	_, ok := s.Exclusions[info.Name()]
 	if ok {
 		return nil
 	}
-
-	defLics, err := InitLicense(*s)
-	if err != nil {
-		return err
+	if info.IsDir() {
+		return nil
 	}
-
 	bs, err := os.ReadFile(filepath.Join(path))
 	if err != nil {
 		return fmt.Errorf("unable to read file: %v", err)
 	}
 	licInfo := DefinitionFormat(string(bs))
-	licenseClass := s.LicenseType
 	classified := false
-	for license, def := range defLics {
+	for license, def := range s.Licenses {
 		if strings.Contains(licInfo, def) {
-			_, ok = licenseClass[license]
+			_, ok = s.LicenseType[license]
 			if !ok {
-				licenseClass[license] = []string{LicPathCleanup(path, false)}
+				s.LicenseType[license] = []string{LicPathCleanup(path, false)}
 			} else {
-				licenseClass[license] = append(licenseClass[license], LicPathCleanup(path, false))
+				s.LicenseType[license] = append(s.LicenseType[license], LicPathCleanup(path, false))
 			}
 			classified = true
 			break
@@ -152,13 +158,12 @@ func (s *Scanner) FileWalk(path string, info fs.FileInfo, err error) error {
 	if !classified {
 		_, ok = s.LicenseType[UnknownLicense]
 		if !ok {
-			licenseClass[UnknownLicense] = []string{LicPathCleanup(path, false)}
+			s.LicenseType[UnknownLicense] = []string{LicPathCleanup(path, false)}
 		} else {
-			licenseClass[UnknownLicense] = append(licenseClass[UnknownLicense], LicPathCleanup(path, false))
+			s.LicenseType[UnknownLicense] = append(s.LicenseType[UnknownLicense], LicPathCleanup(path, false))
 		}
 	}
-
-	err = CreateLicFolder(path, s.DstPath)
+	err = CreateLicFolder(path, s.DstPath, bs)
 	if err != nil {
 		return err
 	}

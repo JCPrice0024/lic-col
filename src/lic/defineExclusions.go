@@ -9,15 +9,18 @@ import (
 	"path/filepath"
 )
 
+// Exclusions is a map that holds license filenames that are to be ignored.
 type Exclusions map[string]struct{}
 
+// ExcludedJson is the json file name for all excludedfiles.
 const ExcludedJson = "excludedfiles.json"
 
-func InitExclusions(scanner Scanner) (Exclusions, error) {
+// InitExlusions creates an Exclusions map using the data stored in ExcludedJson.
+func InitExclusions(gopath string) (Exclusions, error) {
 	var nilMap Exclusions
 	excludedFile, ok := os.LookupEnv("DES_EXCL")
 	if !ok {
-		excludedFile = filepath.Join(scanner.Gopath, "src", "github.com", "JCPrice0024", "lic-col", "Config", ExcludedJson)
+		excludedFile = filepath.Join(gopath, "src", "github.com", "JCPrice0024", "lic-col", "Config", ExcludedJson)
 	}
 	_, err := os.Stat(excludedFile)
 	if err != nil {

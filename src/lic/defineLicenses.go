@@ -10,15 +10,18 @@ import (
 	"regexp"
 )
 
+// Licenses is a map that is used to check known licenses in filewalk.
 type Licenses map[string]string
 
+// DefinedJson is the name of the json file that holds all known licenses.
 const DefinedJson = "definedlicenses.json"
 
-func InitLicense(scanner Scanner) (Licenses, error) {
+// InitLicense creates a Licenses map using the data stored in DefinedJson.
+func InitLicense(gopath string) (Licenses, error) {
 	var nilMap Licenses
 	definedFile, ok := os.LookupEnv("DES_LIC")
 	if !ok {
-		definedFile = filepath.Join(scanner.Gopath, "src", "github.com", "JCPrice0024", "lic-col", "Config", DefinedJson)
+		definedFile = filepath.Join(gopath, "src", "github.com", "JCPrice0024", "lic-col", "Config", DefinedJson)
 	}
 	_, err := os.Stat(definedFile)
 	if err != nil {
@@ -43,11 +46,13 @@ func InitLicense(scanner Scanner) (Licenses, error) {
 	return lics, nil
 }
 
-func IsLicenseFile(filename string) bool {
+// IsLicenseFile is a simple regex used to determine if a filename is a license file or not.
+func IsLicenseFile(path string) bool {
 	licenseFile := regexp.MustCompile(`(?i)(.*)license(.*)`)
-	return licenseFile.MatchString(filename)
+	return licenseFile.MatchString(path)
 }
 
+// DefinitionFormat is a simple regex used to format license definitions for comparison.
 func DefinitionFormat(definition string) string {
 	defFormat := regexp.MustCompile(`\s+`)
 	return defFormat.ReplaceAllString(definition, "")
