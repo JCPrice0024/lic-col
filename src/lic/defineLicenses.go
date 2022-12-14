@@ -14,8 +14,6 @@ type Licenses map[string]string
 
 const DefinedJson = "definedlicenses.json"
 
-// add edit license func
-
 func InitLicense(scanner Scanner) (Licenses, error) {
 	var nilMap Licenses
 	definedFile, ok := os.LookupEnv("DES_LIC")
@@ -39,8 +37,16 @@ func InitLicense(scanner Scanner) (Licenses, error) {
 	if err != nil {
 		return nilMap, fmt.Errorf("error unmarshaling: %v", err)
 	}
-	fmt.Println("License registered!")
+	for license, def := range lics {
+		lics[license] = DefinitionFormat(def)
+	}
+	//fmt.Println("Licenses cong!")
 	return lics, nil
+}
+
+func IsLicenseFile(filename string) bool {
+	licenseFile := regexp.MustCompile(`(?i)(.*)license(.*)`)
+	return licenseFile.MatchString(filename)
 }
 
 func DefinitionFormat(definition string) string {

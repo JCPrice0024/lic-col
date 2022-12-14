@@ -1,0 +1,8 @@
+{
+   "Apache": "Apache License",
+   "BSD": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:\n\n\t1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.\n\n\t2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.\n\n\t3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.",
+   "CDDL": "COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL)",
+   "Eclipse Public": "ECLIPSE PUBLIC LICENSE (“AGREEMENT”)",
+   "GNU": "GNU General Public License",
+   "Mozilla Public": "1.1. “Contributor”\n\tmeans each individual or legal entity that creates, contributes to the creation of, or owns Covered Software.\n\t\n\t1.2. “Contributor Version”\n\tmeans the combination of the Contributions of others (if any) used by a Contributor and that particular Contributor’s Contribution.\n\t\n\t1.3. “Contribution”\n\tmeans Covered Software of a particular Contributor.\n\t\n\t1.4. “Covered Software”\n\tmeans Source Code Form to which the initial Contributor has attached the notice in Exhibit A, the Executable Form of such Source Code Form, and Modifications of such Source Code Form, in each case including portions thereof."
+}

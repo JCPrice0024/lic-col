@@ -11,11 +11,18 @@ import (
 	"strings"
 )
 
+const UnknownLicense = "Unknown License"
+const NoLicense = "No License"
+
 type Scanner struct {
-	Gopath     string
-	ModPath    string
-	ProjectSum string
+	Gopath        string
+	ModPath       string
+	ProjectSum    string
+	Licensecanned bool
+	LicenseType   map[string][]string
 }
+
+//type LicenseType map[string][]string
 
 func InitScanner() (*Scanner, error) {
 	sumpath := os.Getenv("PROJECTSUM")
@@ -32,7 +39,7 @@ func InitScanner() (*Scanner, error) {
 		return nil, fmt.Errorf("error opening mod file: %v", sum)
 	}
 
-	return &Scanner{Gopath: gopath, ModPath: modPath, ProjectSum: string(sum)}, nil
+	return &Scanner{Gopath: gopath, ModPath: modPath, ProjectSum: string(sum), Licensecanned: false, LicenseType: make(map[string][]string)}, nil
 }
 
 // DependencyCheck first conforms the dependency string provided by ScanPath into the correct format for
@@ -70,7 +77,7 @@ func (s *Scanner) DependencyCheck(d string) string {
 func (s *Scanner) ScanPath() error {
 	dependencies := strings.SplitAfterN(s.ProjectSum, "\n", -1)
 	toScan := ""
-
+	//=strings.Contains()
 	for _, d := range dependencies {
 		d = strings.TrimSpace(d)
 		toScan = s.DependencyCheck(d)
@@ -78,11 +85,68 @@ func (s *Scanner) ScanPath() error {
 			continue
 		}
 		filepath.Walk(toScan, s.FileWalk)
-
+		if !s.Licensecanned {
+			_, ok := s.LicenseType[NoLicense]
+			if !ok {
+				s.LicenseType[NoLicense] = []string{toScan}
+			} else {
+				s.LicenseType[NoLicense] = append(s.LicenseType[NoLicense], toScan)
+			}
+		}
+		s.Licensecanned = false
 	}
+	fmt.Println(s.LicenseType)
 	return nil
 }
 
 func (s *Scanner) FileWalk(path string, info fs.FileInfo, err error) error {
+	if err != nil {
+		return fmt.Errorf("error with file walk: %v", err)
+	}
+	if !IsLicenseFile(info.Name()) {
+		return nil
+	}
+	s.Licensecanned = true
+	excls, err := InitExclusions(*s)
+	if err != nil {
+		return err
+	}
+	_, ok := excls[info.Name()]
+	if ok {
+		return nil
+	}
+
+	defLics, err := InitLicense(*s)
+	if err != nil {
+		return err
+	}
+
+	bs, err := os.ReadFile(filepath.Join(path))
+	if err != nil {
+		return fmt.Errorf("unable to read file: %v", err)
+	}
+	licInfo := DefinitionFormat(string(bs))
+	licenseClass := s.LicenseType
+	classified := false
+	for license, def := range defLics {
+		if strings.Contains(licInfo, def) {
+			_, ok = licenseClass[license]
+			if !ok {
+				licenseClass[license] = []string{path}
+			} else {
+				licenseClass[license] = append(licenseClass[license], path)
+			}
+			classified = true
+			break
+		}
+	}
+	if !classified {
+		_, ok = s.LicenseType[UnknownLicense]
+		if !ok {
+			licenseClass[UnknownLicense] = []string{path}
+		} else {
+			licenseClass[UnknownLicense] = append(licenseClass[UnknownLicense], path)
+		}
+	}
 	return nil
 }
