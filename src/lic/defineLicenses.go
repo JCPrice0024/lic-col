@@ -40,7 +40,6 @@ func InitLicense(scanner Scanner) (Licenses, error) {
 	for license, def := range lics {
 		lics[license] = DefinitionFormat(def)
 	}
-	//fmt.Println("Licenses cong!")
 	return lics, nil
 }
 

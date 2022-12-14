@@ -12,7 +12,11 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	mod.ScanPath()
+	err = mod.ScanPath()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 	/*m := make(map[string]string)
 	m["BSD"] = `Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 

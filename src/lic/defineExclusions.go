@@ -36,6 +36,5 @@ func InitExclusions(scanner Scanner) (Exclusions, error) {
 	if err != nil {
 		return nilMap, fmt.Errorf("error unmarshaling: %v", err)
 	}
-	//fmt.Println("Licenses cong!")
 	return excls, nil
 }
