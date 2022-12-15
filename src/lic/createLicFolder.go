@@ -2,7 +2,9 @@ package lic
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -18,6 +20,13 @@ const LicFolder = "License_Folder"
 
 // CreateLicTypesFile simply creates the LicTypesFile.
 func CreateLicTypesFile(scanner Scanner) error {
+	_, err := os.Stat(scanner.DstPath)
+	if err != nil {
+		if errors.Is(err, os.ErrNotExist) {
+			return fmt.Errorf("licfolder was never made license scan failed: %v", err)
+		}
+		return err
+	}
 	bs, err := json.MarshalIndent(scanner.LicenseType, "", "   ")
 	if err != nil {
 		return fmt.Errorf("error marshaling licenseTypes: %v", err)
@@ -28,6 +37,7 @@ func CreateLicTypesFile(scanner Scanner) error {
 
 // CreateLicFolder copies all License files into a Licenses folder found in the LicFolder.
 func CreateLicFolder(licPath, dstPath string, data []byte) error {
+	fmt.Println(dstPath)
 	licFolder := filepath.Join(dstPath, LicFolder, "Licenses")
 	err := os.MkdirAll(licFolder, os.ModePerm)
 	if err != nil {
@@ -48,10 +58,11 @@ func CreateLicFolder(licPath, dstPath string, data []byte) error {
 	if err != nil {
 		return fmt.Errorf("error copying license file: %v", err)
 	}
-	fmt.Println("LICENSE COPIED!!!")
+	log.Println("LICENSE COPIED!!!")
 	return nil
 }
 
+// LicPathCleanup simply cleans the path up for CreateLicFolder and CreateLicTypesFile.
 func LicPathCleanup(licPath string, noSlashes bool) string {
 	lps := strings.Split(licPath, ("mod" + string(filepath.Separator)))
 	if len(lps) != 2 {

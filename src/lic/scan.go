@@ -11,9 +11,14 @@ import (
 	"strings"
 )
 
+// UnknownLicense is the key for any licenses that we cannot find in our DefinedJson
 const UnknownLicense = "Unknown License"
+
+// NoLicense is the key for any repos that we cannot find a license file in
 const NoLicense = "No License"
 
+// The Scanner struct is the main object we use for our FileWalk and ScanPath. It holds all the paths
+// maps and other things we need.
 type Scanner struct {
 	Gopath        string
 	ModPath       string
@@ -25,26 +30,8 @@ type Scanner struct {
 	LicenseType   map[string][]string
 }
 
-//type LicenseType map[string][]string
-
-func InitScanner() (*Scanner, error) {
-	sumpath := os.Getenv("PROJECTSUM")
-	if sumpath == "" {
-		return nil, errors.New("environment variable PROJECTSUM not set")
-	}
-	gopath := os.Getenv("GOPATH")
-	if gopath == "" {
-		return nil, errors.New("environment variable GOPATH not set")
-	}
-	dstpath := os.Getenv("DSTPATH")
-	if dstpath == "" {
-		return nil, errors.New("environment variable DSTPATH not set")
-	}
-	modPath := filepath.Join(gopath, "pkg", "mod")
-	sum, err := os.ReadFile(sumpath)
-	if err != nil {
-		return nil, fmt.Errorf("error opening mod file: %v", sum)
-	}
+// InitScanner creates a scanner object for scan path.
+func InitScanner(gopath, modpath, dstpath string) (*Scanner, error) {
 
 	excls, err := InitExclusions(gopath)
 	if err != nil {
@@ -56,7 +43,7 @@ func InitScanner() (*Scanner, error) {
 		return nil, err
 	}
 
-	return &Scanner{Gopath: gopath, ModPath: modPath, DstPath: dstpath, ProjectSum: string(sum), Licensecanned: false, Licenses: licenses, Exclusions: excls, LicenseType: make(map[string][]string)}, nil
+	return &Scanner{Gopath: gopath, ModPath: modpath, DstPath: dstpath, Licensecanned: false, Licenses: licenses, Exclusions: excls, LicenseType: make(map[string][]string)}, nil
 }
 
 // DependencyCheck first conforms the dependency string provided by ScanPath into the correct format for
@@ -87,22 +74,26 @@ func (s *Scanner) DependencyCheck(d string) string {
 		log.Printf("Path was expected to be a directory: %v", path)
 		return ""
 	}
-	//fmt.Println("dependency: ", path)
 	return path
 }
 
+// ScanPath scans the path entered in and starts the process of copying and classifying license files into
+// LicFolder.
 func (s *Scanner) ScanPath() error {
 	dependencies := strings.SplitAfterN(s.ProjectSum, "\n", -1)
 	toScan := ""
-
-	for _, d := range dependencies {
+	//fmt.Println(len(dependencies))
+	for i, d := range dependencies {
 		d = strings.TrimSpace(d)
 		toScan = s.DependencyCheck(d)
 		if toScan == "" {
 			continue
 		}
+		fmt.Println(len(dependencies))
+		fmt.Println(i, toScan)
 		err := filepath.Walk(toScan, s.FileWalk)
 		if err != nil {
+			fmt.Println(err)
 			return err
 		}
 		if !s.Licensecanned {
@@ -119,16 +110,24 @@ func (s *Scanner) ScanPath() error {
 	if err != nil {
 		return err
 	}
+	log.Println("Scan completed, exiting")
 	return nil
 }
 
+// FileWalk is a Walkfn for filepath.Walk in ScanPath. It walks through all folders and files in a repo and looks for anything
+// relating to a license.
 func (s *Scanner) FileWalk(path string, info fs.FileInfo, err error) error {
 	if err != nil {
 		return fmt.Errorf("error with file walk: %v", err)
 	}
+
+	//fmt.Println("fired")
+
 	if !IsLicenseFile(path) {
 		return nil
 	}
+	fmt.Println("fired")
+
 	s.Licensecanned = true
 	_, ok := s.Exclusions[info.Name()]
 	if ok {
