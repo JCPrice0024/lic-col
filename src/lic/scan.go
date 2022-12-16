@@ -82,18 +82,14 @@ func (s *Scanner) DependencyCheck(d string) string {
 func (s *Scanner) ScanPath() error {
 	dependencies := strings.SplitAfterN(s.ProjectSum, "\n", -1)
 	toScan := ""
-	//fmt.Println(len(dependencies))
-	for i, d := range dependencies {
+	for _, d := range dependencies {
 		d = strings.TrimSpace(d)
 		toScan = s.DependencyCheck(d)
 		if toScan == "" {
 			continue
 		}
-		fmt.Println(len(dependencies))
-		fmt.Println(i, toScan)
 		err := filepath.Walk(toScan, s.FileWalk)
 		if err != nil {
-			fmt.Println(err)
 			return err
 		}
 		if !s.Licensecanned {
@@ -110,7 +106,7 @@ func (s *Scanner) ScanPath() error {
 	if err != nil {
 		return err
 	}
-	log.Println("Scan completed, exiting")
+	log.Println("Scan completed")
 	return nil
 }
 
@@ -120,14 +116,9 @@ func (s *Scanner) FileWalk(path string, info fs.FileInfo, err error) error {
 	if err != nil {
 		return fmt.Errorf("error with file walk: %v", err)
 	}
-
-	//fmt.Println("fired")
-
 	if !IsLicenseFile(path) {
 		return nil
 	}
-	fmt.Println("fired")
-
 	s.Licensecanned = true
 	_, ok := s.Exclusions[info.Name()]
 	if ok {

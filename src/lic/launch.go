@@ -49,7 +49,27 @@ func (l *Launch) LaunchProgram() error {
 	}
 	log.Println("CloneRepo completed")
 
-	return filepath.Walk(clone, l.SumWalk)
+	err = filepath.Walk(clone, l.SumWalk)
+	if err != nil {
+		return err
+	}
+	if l.Cleanup {
+		log.Println("Cleaning")
+		/*
+			POTENTIAL FEATURE REMOVE REPO AFTER DONE WITH SCAN
+			err = os.RemoveAll(filepath.Dir(clone))
+			if err != nil {
+				return fmt.Errorf("error removing clone: clone: %v err: %v", clone, err)
+			}
+		*/
+		err = filepath.Walk(l.ModPath, l.CleanerWalk)
+		if err != nil {
+			return err
+		}
+		log.Println("Cleaning Complete")
+	}
+	log.Println("Exiting")
+	return nil
 }
 
 func (l *Launch) CloneRepo() (string, error) {
@@ -97,6 +117,29 @@ func (l *Launch) CloneRepo() (string, error) {
 		log.Println("Checkout completed")
 	}
 	return repoDir, nil
+}
+
+func (l *Launch) CleanerWalk(path string, info fs.FileInfo, err error) error {
+	if err != nil {
+		if errors.Is(err, os.ErrNotExist) {
+			return nil
+		}
+		return fmt.Errorf("error performing filepath.Walk: %v", err)
+	}
+	ver := regexp.MustCompile(`(.*)@v(.*)`)
+	if !ver.MatchString(info.Name()) {
+		return nil
+	}
+	_, ok := l.CurrentDownloads[path]
+	if ok {
+		return nil
+	}
+	err = os.RemoveAll(path)
+	log.Println("Removed: ", path)
+	if err != nil {
+		return fmt.Errorf("error removing path:  path: %v err: %v", path, err)
+	}
+	return nil
 }
 
 func (l *Launch) DownloadedWalk(path string, info fs.FileInfo, err error) error {

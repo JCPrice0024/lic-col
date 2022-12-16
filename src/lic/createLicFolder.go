@@ -37,7 +37,6 @@ func CreateLicTypesFile(scanner Scanner) error {
 
 // CreateLicFolder copies all License files into a Licenses folder found in the LicFolder.
 func CreateLicFolder(licPath, dstPath string, data []byte) error {
-	fmt.Println(dstPath)
 	licFolder := filepath.Join(dstPath, LicFolder, "Licenses")
 	err := os.MkdirAll(licFolder, os.ModePerm)
 	if err != nil {

@@ -8,16 +8,7 @@ import (
 )
 
 func main() {
-	/*mod, err := lic.InitScanner()
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	err = mod.ScanPath()
-	if err != nil {
-		fmt.Println(err)
-		return
-	}*/
+
 	repo := flag.String("repo", "", "The repo flag is the github path you want to scan")
 	dst := flag.String("dst", "", "The dst flag is the path where you want all of the scanned licenses to go")
 	// clone := flag.String("clonepath", "", "The clonepath flag is the path of the clone of the repo you want scanned")
