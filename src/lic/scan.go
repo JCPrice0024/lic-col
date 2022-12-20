@@ -100,9 +100,9 @@ func (s *Scanner) ScanPath() error {
 		if !s.Licensecanned {
 			_, ok := s.LicenseType[NoLicense]
 			if !ok {
-				s.LicenseType[NoLicense] = []LicenseInfo{{Filename: LicPathCleanup(toScan, false), Filepath: toScan}}
+				s.LicenseType[NoLicense] = []LicenseInfo{{Filename: LicPathCleanup(toScan, false), Filepath: filepath.Dir(toScan)}}
 			} else {
-				s.LicenseType[NoLicense] = append(s.LicenseType[NoLicense], LicenseInfo{Filename: LicPathCleanup(toScan, false), Filepath: toScan})
+				s.LicenseType[NoLicense] = append(s.LicenseType[NoLicense], LicenseInfo{Filename: LicPathCleanup(toScan, false), Filepath: filepath.Dir(toScan)})
 			}
 		}
 		s.Licensecanned = false
@@ -142,9 +142,9 @@ func (s *Scanner) FileWalk(path string, info fs.FileInfo, err error) error {
 		if strings.Contains(licInfo, def) {
 			_, ok = s.LicenseType[license]
 			if !ok {
-				s.LicenseType[license] = []LicenseInfo{{Filename: LicPathCleanup(path, false), Filepath: path}}
+				s.LicenseType[license] = []LicenseInfo{{Filename: LicPathCleanup(path, false), Filepath: fmt.Sprintf("licenses/%s", LicPathCleanup(path, true))}}
 			} else {
-				s.LicenseType[license] = append(s.LicenseType[license], LicenseInfo{Filename: LicPathCleanup(path, false), Filepath: path})
+				s.LicenseType[license] = append(s.LicenseType[license], LicenseInfo{Filename: LicPathCleanup(path, false), Filepath: fmt.Sprintf("licenses/%s", LicPathCleanup(path, true))})
 			}
 			classified = true
 			break
@@ -153,9 +153,9 @@ func (s *Scanner) FileWalk(path string, info fs.FileInfo, err error) error {
 	if !classified {
 		_, ok = s.LicenseType[UnknownLicense]
 		if !ok {
-			s.LicenseType[UnknownLicense] = []LicenseInfo{{Filename: LicPathCleanup(path, false), Filepath: path}}
+			s.LicenseType[UnknownLicense] = []LicenseInfo{{Filename: LicPathCleanup(path, false), Filepath: fmt.Sprintf("licenses/%s", LicPathCleanup(path, true))}}
 		} else {
-			s.LicenseType[UnknownLicense] = append(s.LicenseType[UnknownLicense], LicenseInfo{Filename: LicPathCleanup(path, false), Filepath: path})
+			s.LicenseType[UnknownLicense] = append(s.LicenseType[UnknownLicense], LicenseInfo{Filename: LicPathCleanup(path, false), Filepath: fmt.Sprintf("licenses/%s", LicPathCleanup(path, true))})
 		}
 	}
 	err = CreateLicFolder(path, s.DstPath, bs)

@@ -17,13 +17,14 @@ type Launch struct {
 	Dst              string
 	Version          string
 	Cleanup          bool
+	ToHTML           bool
 	Gopath           string
 	ModPath          string
 	CurrentDownloads map[string]struct{}
 	Scanner          Scanner
 }
 
-func InitLaunch(repo, dst, version string, cleanup bool) (*Launch, error) {
+func InitLaunch(repo, dst, version string, cleanup bool, html bool) (*Launch, error) {
 	gopath := os.Getenv("GOPATH")
 	if gopath == "" {
 		return nil, errors.New("no GOPATH found")
@@ -33,7 +34,7 @@ func InitLaunch(repo, dst, version string, cleanup bool) (*Launch, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &Launch{Repo: repo, Dst: dst, Version: version, Cleanup: cleanup, Gopath: gopath, ModPath: modpath, CurrentDownloads: make(map[string]struct{}), Scanner: *scan}, nil
+	return &Launch{Repo: repo, Dst: dst, Version: version, Cleanup: cleanup, ToHTML: html, Gopath: gopath, ModPath: modpath, CurrentDownloads: make(map[string]struct{}), Scanner: *scan}, nil
 }
 
 func (l *Launch) LaunchProgram() error {
@@ -67,6 +68,14 @@ func (l *Launch) LaunchProgram() error {
 			return err
 		}
 		log.Println("Cleaning Complete")
+	}
+
+	if l.ToHTML {
+		//		log.Println("Starting HTML server")
+		err = l.CreateHtmlIndex()
+		if err != nil {
+			return err
+		}
 	}
 	log.Println("Exiting")
 	return nil
@@ -119,6 +128,15 @@ func (l *Launch) CloneRepo() (string, error) {
 	return repoDir, nil
 }
 
+/*
+	func (l *Launch) LaunchHtmlServer() {
+		http.HandleFunc("/home", l.HandleHtml)
+		err := http.ListenAndServe("localhost:8080", nil)
+		if err != nil {
+			log.Fatalln("There's an error with the server:", err)
+		}
+	}
+*/
 func (l *Launch) CleanerWalk(path string, info fs.FileInfo, err error) error {
 	if err != nil {
 		if errors.Is(err, os.ErrNotExist) {

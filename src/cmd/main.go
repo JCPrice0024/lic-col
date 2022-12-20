@@ -11,8 +11,8 @@ func main() {
 
 	repo := flag.String("repo", "", "The repo flag is the github path you want to scan")
 	dst := flag.String("dst", "", "The dst flag is the path where you want all of the scanned licenses to go")
-	// clone := flag.String("clonepath", "", "The clonepath flag is the path of the clone of the repo you want scanned")
 	cleanup := flag.Bool("cleanup", false, "The cleanup flag will clean up all downloaded folders once it's done")
+	html := flag.Bool("tohtml", false, "tohtml prints the results of the scan into an html server on localhost:8080")
 	version := flag.String("version", "", "The version flag is the commit hash of the repo you want to scan, if empty it scans the current version")
 
 	flag.Parse()
@@ -28,7 +28,7 @@ func main() {
 		return
 	}
 
-	launcher, err := lic.InitLaunch(*repo, *dst, *version, *cleanup)
+	launcher, err := lic.InitLaunch(*repo, *dst, *version, *cleanup, *html)
 	if err != nil {
 		log.Println(err)
 		return
