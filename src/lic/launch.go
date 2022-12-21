@@ -30,7 +30,7 @@ func InitLaunch(repo, dst, version string, cleanup bool, html bool) (*Launch, er
 		return nil, errors.New("no GOPATH found")
 	}
 	modpath := filepath.Join(gopath, "pkg", "mod")
-	scan, err := InitScanner(gopath, modpath, dst)
+	scan, err := InitScanner(gopath, modpath, dst, html)
 	if err != nil {
 		return nil, err
 	}
@@ -82,26 +82,33 @@ func (l *Launch) LaunchProgram() error {
 }
 
 func (l *Launch) CloneRepo() (string, error) {
-
-	parts := strings.Split(l.Repo, "/")
-	if len(parts) < 3 {
-		return "", errors.New("invalid repo format")
+	repoDir := ""
+	repoBase := ""
+	if strings.Contains(l.Repo, "https://") {
+		parts := strings.Split(l.Repo, "/")
+		path := []string{l.Gopath, "src"}
+		path = append(path, parts[1:len(parts)-1]...)
+		repoBase = filepath.Join(path...)
+		repo := parts[len(parts)-1]
+		extension := filepath.Ext(repo)
+		repoDir = filepath.Join(repoBase, repo[0:len(repo)-len(extension)])
+	} else if strings.Contains(l.Repo, "git@") {
+		ssh := strings.ReplaceAll(l.Repo, "git@", "")
+		sshPath := strings.Replace(ssh, ":", "/", 1)
+		parts := strings.Split(sshPath, "/")
+		path := []string{l.Gopath, "src"}
+		path = append(path, parts[:len(parts)-1]...)
+		repoBase = filepath.Join(path...)
+		repo := parts[len(parts)-1]
+		extension := filepath.Ext(repo)
+		repoDir = filepath.Join(repoBase, repo[0:len(repo)-len(extension)])
 	}
-
-	path := []string{l.Gopath, "src"}
-	path = append(path, parts[1:len(parts)-1]...)
-	repoBase := filepath.Join(path...)
-	repo := parts[len(parts)-1]
-	extension := filepath.Ext(repo)
-	repoDir := filepath.Join(repoBase, repo[0:len(repo)-len(extension)])
-
 	log.Println("Calling Stat on: ", repoDir)
 	_, err := os.Stat(repoDir)
 	if err == nil {
 		log.Println("repo already exists, analyzing current version.")
 		return repoDir, nil
 	}
-
 	err = os.MkdirAll(repoBase, os.ModePerm)
 	if err != nil {
 		return "", fmt.Errorf("error making directory: %v", err)

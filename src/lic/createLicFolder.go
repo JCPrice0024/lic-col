@@ -44,7 +44,7 @@ func CreateLicFolder(licPath, dstPath string, data []byte) error {
 	}
 	licNameExt := LicPathCleanup(filepath.Dir(licPath), true)
 
-	dstFileName := filepath.Base(licPath) + "_" + licNameExt + ".html"
+	dstFileName := filepath.Base(licPath) + "_" + licNameExt
 
 	dstFile := filepath.Join(licFolder, dstFileName)
 	dFile, err := os.OpenFile(dstFile, os.O_RDWR|os.O_CREATE, 0666)

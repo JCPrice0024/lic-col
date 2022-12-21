@@ -24,6 +24,7 @@ type Scanner struct {
 	ModPath       string
 	DstPath       string
 	ProjectSum    string
+	ToHTML        bool
 	Licensecanned bool
 	Exclusions    Exclusions
 	Licenses      Licenses
@@ -36,7 +37,7 @@ type LicenseInfo struct {
 }
 
 // InitScanner creates a scanner object for scan path.
-func InitScanner(gopath, modpath, dstpath string) (*Scanner, error) {
+func InitScanner(gopath, modpath, dstpath string, tohtml bool) (*Scanner, error) {
 
 	excls, err := InitExclusions(gopath)
 	if err != nil {
@@ -48,7 +49,7 @@ func InitScanner(gopath, modpath, dstpath string) (*Scanner, error) {
 		return nil, err
 	}
 
-	return &Scanner{Gopath: gopath, ModPath: modpath, DstPath: dstpath, Licensecanned: false, Licenses: licenses, Exclusions: excls, LicenseType: make(map[string][]LicenseInfo)}, nil
+	return &Scanner{Gopath: gopath, ModPath: modpath, DstPath: dstpath, ToHTML: tohtml, Licensecanned: false, Licenses: licenses, Exclusions: excls, LicenseType: make(map[string][]LicenseInfo)}, nil
 }
 
 // DependencyCheck first conforms the dependency string provided by ScanPath into the correct format for
@@ -125,7 +126,7 @@ func (s *Scanner) FileWalk(path string, info fs.FileInfo, err error) error {
 		return nil
 	}
 	s.Licensecanned = true
-	_, ok := s.Exclusions[info.Name()]
+	_, ok := s.Exclusions[filepath.Ext(info.Name())]
 	if ok {
 		return nil
 	}
@@ -138,13 +139,14 @@ func (s *Scanner) FileWalk(path string, info fs.FileInfo, err error) error {
 	}
 	licInfo := DefinitionFormat(string(bs))
 	classified := false
+	licenseHTMLPath := filepath.Base(path) + "_" + LicPathCleanup(filepath.Dir(path), true) + ".html"
 	for license, def := range s.Licenses {
 		if strings.Contains(licInfo, def) {
 			_, ok = s.LicenseType[license]
 			if !ok {
-				s.LicenseType[license] = []LicenseInfo{{Filename: LicPathCleanup(path, false), Filepath: fmt.Sprintf("licenses/%s", LicPathCleanup(path, true))}}
+				s.LicenseType[license] = []LicenseInfo{{Filename: LicPathCleanup(path, false), Filepath: fmt.Sprintf("Licenses/%s", licenseHTMLPath)}}
 			} else {
-				s.LicenseType[license] = append(s.LicenseType[license], LicenseInfo{Filename: LicPathCleanup(path, false), Filepath: fmt.Sprintf("licenses/%s", LicPathCleanup(path, true))})
+				s.LicenseType[license] = append(s.LicenseType[license], LicenseInfo{Filename: LicPathCleanup(path, false), Filepath: fmt.Sprintf("Licenses/%s", licenseHTMLPath)})
 			}
 			classified = true
 			break
@@ -153,12 +155,16 @@ func (s *Scanner) FileWalk(path string, info fs.FileInfo, err error) error {
 	if !classified {
 		_, ok = s.LicenseType[UnknownLicense]
 		if !ok {
-			s.LicenseType[UnknownLicense] = []LicenseInfo{{Filename: LicPathCleanup(path, false), Filepath: fmt.Sprintf("licenses/%s", LicPathCleanup(path, true))}}
+			s.LicenseType[UnknownLicense] = []LicenseInfo{{Filename: LicPathCleanup(path, false), Filepath: fmt.Sprintf("Licenses/%s", licenseHTMLPath)}}
 		} else {
-			s.LicenseType[UnknownLicense] = append(s.LicenseType[UnknownLicense], LicenseInfo{Filename: LicPathCleanup(path, false), Filepath: fmt.Sprintf("licenses/%s", LicPathCleanup(path, true))})
+			s.LicenseType[UnknownLicense] = append(s.LicenseType[UnknownLicense], LicenseInfo{Filename: LicPathCleanup(path, false), Filepath: fmt.Sprintf("Licenses/%s", licenseHTMLPath)})
 		}
 	}
-	err = CreateLicFolder(path, s.DstPath, bs)
+	if s.ToHTML {
+		err = CreateHTMLLicense(path, s.DstPath, bs)
+	} else {
+		err = CreateLicFolder(path, s.DstPath, bs)
+	}
 	if err != nil {
 		return err
 	}
