@@ -74,5 +74,9 @@ There is also an example in the base config files. To create your own override l
 cache.json
 This config file is special. This one is not pre-configured but is made after the program is lauched. It is only made if you use the git-check command line arg. It holds all requested license names for a project. This is so that if you run the program multiple times you won't have to spam the githubapi as the info will be stored here. 
 
+# SONAR RESULTS
+![image](https://user-images.githubusercontent.com/111247018/210660570-069e6dc3-bbab-4681-a162-31f3a8e18547.png)
+
+
 # IMPORTANT NOTE
 This program is not full proof nor does it claim to be. It has been tested and it works but there is always room for error and thus should NOT be considered legal advice.
