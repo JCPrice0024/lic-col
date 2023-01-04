@@ -13,10 +13,10 @@ lic-col works by performing a series of filepath.Walks on a repos go.sum file. I
 
 # EXAMPLE
 To generate html output and to get git's License guess use the following format when running the program:
-lic-col -repo="https://github.com/JCPrice0024/lic-testRepo5.git" -dst="c:/AllLicenses" -tohtml -git-check
+licenseCol -repo="https://github.com/JCPrice0024/lic-testRepo5.git" -dst="c:/AllLicenses" -tohtml -git-check
 
 To simply create directory with all licenses use the following format:
-lic-col -repo="https://github.com/JCPrice0024/lic-testRepo5.git" -dst="c:/AllLicenses"
+licenseCol -repo="https://github.com/JCPrice0024/lic-testRepo5.git" -dst="c:/AllLicenses"
 
 # HOW TO USE
 
