@@ -1,0 +1,56 @@
+{
+   "Apache 2.0": [
+      {
+         "Filepath": "Licenses/LICENSE_github.com_!j!c!price0024_lic-test!repo1@v0.0.0-20221229205625-2c7f453ff38b.html",
+         "Filename": "github.com\\!j!c!price0024\\lic-test!repo1@v0.0.0-20221229205625-2c7f453ff38b\\LICENSE",
+         "GitLink": "https://github.com/JCPrice0024/lic-testRepo1",
+         "GitLicense": ""
+      },
+      {
+         "Filepath": "Licenses/LICENSE3_github.com_!j!c!price0024_lic-test!repo2@v0.0.0-20230103200356-e7336d38a6f5.html",
+         "Filename": "github.com\\!j!c!price0024\\lic-test!repo2@v0.0.0-20230103200356-e7336d38a6f5\\LICENSE3",
+         "GitLink": "https://github.com/JCPrice0024/lic-testRepo2",
+         "GitLicense": ""
+      }
+   ],
+   "BSD 3-Clause": [
+      {
+         "Filepath": "Licenses/LICENSE_github.com_!j!c!price0024_lic-test!repo2@v0.0.0-20230103200356-e7336d38a6f5.html",
+         "Filename": "github.com\\!j!c!price0024\\lic-test!repo2@v0.0.0-20230103200356-e7336d38a6f5\\LICENSE",
+         "GitLink": "https://github.com/JCPrice0024/lic-testRepo2",
+         "GitLicense": ""
+      }
+   ],
+   "BSD OVERRIDE": [
+      {
+         "Filepath": "Licenses/doc.go_github.com_!j!c!price0024_lic-test!repo3@v0.0.1.html",
+         "Filename": "github.com\\!j!c!price0024\\lic-test!repo3@v0.0.1\\doc.go",
+         "GitLink": "https://github.com/JCPrice0024/lic-testRepo3",
+         "GitLicense": ""
+      }
+   ],
+   "GNU General Public License Version 3.0": [
+      {
+         "Filepath": "Licenses/LICENSE_github.com_JCPrice0024_lic-testRepo5.html",
+         "Filename": "github.com\\JCPrice0024\\lic-testRepo5\\LICENSE",
+         "GitLink": "https://github.com/JCPrice0024/lic-testRepo5",
+         "GitLicense": ""
+      }
+   ],
+   "No License": [
+      {
+         "Filepath": "C:\\Users\\coold\\go\\pkg\\mod\\github.com\\!j!c!price0024",
+         "Filename": "github.com\\!j!c!price0024\\lic-test!repo4@v0.0.0-20221229205507-8cae7c274bcd",
+         "GitLink": "https://github.com/JCPrice0024/lic-testRepo4",
+         "GitLicense": ""
+      }
+   ],
+   "Unknown License": [
+      {
+         "Filepath": "Licenses/LICENSE2_github.com_!j!c!price0024_lic-test!repo2@v0.0.0-20230103200356-e7336d38a6f5.html",
+         "Filename": "github.com\\!j!c!price0024\\lic-test!repo2@v0.0.0-20230103200356-e7336d38a6f5\\LICENSE2",
+         "GitLink": "https://github.com/JCPrice0024/lic-testRepo2",
+         "GitLicense": ""
+      }
+   ]
+}

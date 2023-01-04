@@ -1,94 +1,51 @@
 package lic
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"log"
 	"os"
 	"path/filepath"
 	"regexp"
+	"strings"
 )
 
+// Licenses is a map that is used to check known licenses in filewalk.
 type Licenses map[string]string
 
+// DefinedJson is the name of the json file that holds all known licenses.
 const DefinedJson = "definedlicenses.json"
-const DefinedFolder = "Defined_Licenses"
 
-// add edit license func
-
-func InitLicense(license string, definition string) error {
-	if license == "" {
-		log.Println("No license provided")
-		return nil
-	}
-	if definition == "" {
-		log.Println("No definition provided")
-		return nil
-	}
-	definition = DefinitionFormat(definition)
-	wd, err := os.Getwd()
-	if err != nil {
-		return fmt.Errorf("error getting current directory: %v", err)
-	}
-	definedFile := filepath.Join(wd, DefinedFolder, DefinedJson)
-	_, err = os.Stat(definedFile)
-	if err != nil {
-		if errors.Is(err, os.ErrNotExist) {
-			err = CreateDefinedFile(license, definition)
-			if err != nil {
-				return err
-			}
-			return nil
-		}
-		return fmt.Errorf("error checking file: %v", err)
-	}
-	lic, err := os.ReadFile(definedFile)
-	if err != nil {
-		return fmt.Errorf("error reading file: %v", err)
+// InitLicense creates a Licenses map using the data stored in DefinedJson.
+func InitLicense(gopath string) (Licenses, error) {
+	var nilMap Licenses
+	definedFile, ok := os.LookupEnv("DES_LIC")
+	if !ok {
+		definedFile = filepath.Join(gopath, "src", "github.com", "JCPrice0024", "lic-col", "Config", DefinedJson)
 	}
 	lics := make(Licenses)
-	err = json.Unmarshal(lic, &lics)
+	err := InitJsonConfigs(definedFile, &lics)
 	if err != nil {
-		return fmt.Errorf("error unmarshaling: %v", err)
+		if errors.Is(err, os.ErrNotExist) {
+			log.Println("No license config files leveraged")
+			return make(Licenses), nil
+		}
+		return nilMap, fmt.Errorf("error checking file: %w", err)
 	}
-	if _, ok := lics[license]; ok {
-		return nil
+	for license, def := range lics {
+		lics[license] = DefinitionFormat(def)
 	}
-	lics[license] = definition
-	js, err := json.Marshal(lics)
-	if err != nil {
-		return fmt.Errorf("error marshaling file: %v", err)
-	}
-	err = os.WriteFile(definedFile, js, os.ModePerm)
-	if err != nil {
-		return fmt.Errorf("error writing file: %v", err)
-	}
-	fmt.Println("License registered!")
-	return nil
+	return lics, nil
 }
 
-func CreateDefinedFile(license, definition string) error {
-	definition = DefinitionFormat(definition)
-	lic := Licenses{license: definition}
-	js, err := json.Marshal(lic)
-	if err != nil {
-		return fmt.Errorf("error marshaling file: %v", err)
-	}
-	wd, err := os.Getwd()
-	if err != nil {
-		return fmt.Errorf("error getting current directory: %v", err)
-	}
-	foldername := filepath.Join(wd, DefinedFolder)
-	err = os.MkdirAll(foldername, os.ModePerm)
-	if err != nil {
-		return fmt.Errorf("error making directory: %v", err)
-	}
-	filename := filepath.Join(foldername, DefinedJson)
-	return os.WriteFile(filename, js, os.ModePerm)
+// IsLicenseFile is a simple regex used to determine if a filename is a license file or not.
+func IsLicenseFile(path string) bool {
+	licenseFile := regexp.MustCompile(`(?i)(.*)license(.*)`)
+	return licenseFile.MatchString(path)
 }
 
+// DefinitionFormat is a simple regex used to format license definitions for comparison.
 func DefinitionFormat(definition string) string {
-	defFormat := regexp.MustCompile(`\s+`)
-	return defFormat.ReplaceAllString(definition, "")
+	defFormat := regexp.MustCompile(`[^A-Za-z]+`)
+	return strings.ToUpper(defFormat.ReplaceAllString(definition, ""))
 }

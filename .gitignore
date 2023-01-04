@@ -5,6 +5,11 @@
 *.so
 *.dylib
 
+#sonarqube files
+.scannerwork
+
+cache.json
+
 # Test binary, built with `go test -c`
 *.test
 
