@@ -3,7 +3,7 @@ lic-col or License Collector is an opensource program that finds and collects al
 
 
 # HOW TO INSTALL IT
-go install -v github.com/JCPrice0024/lic-col/cmd/lic-col@latest
+go install -v github.com/JCPrice0024/lic-col/licenseCol@latest
 
 
 # HOW IT WORKS
