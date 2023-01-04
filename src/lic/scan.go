@@ -151,7 +151,6 @@ func (s *Scanner) ScanOverride(path, ovrPath string) error {
 			GitLink:    GetLink(path),
 			GitLicense: s.GitLicense})
 	}
-	fmt.Println(ovrFile)
 	bs, err := os.ReadFile(ovrFile)
 	if err != nil {
 		return fmt.Errorf("unable to read file: %w", err)

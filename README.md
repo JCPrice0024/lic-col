@@ -1,9 +1,22 @@
 # lic-col
 lic-col or License Collector is an opensource program that finds and collects all licenses in a program's sub-dependencies. The motivation behind this project was to quickly and efficiently copy all License files in your sub-dependencies to a single folder that you can place in your project. It is important to get all of the licenses of your sub-dependencies because when you import code that is not your's you MUST also import the license that is used to not be subject to legal problems (This is a condition in most License files). Another motivation of this program was also to help make sure your program isn't importing any licenses that could harm your code, (like a copy-left license in a closed source project).
 
+
+# HOW TO INSTALL IT
+go install github.com/JCPrice0024/lic-col@latest
+
+
 # HOW IT WORKS
 
 lic-col works by performing a series of filepath.Walks on a repos go.sum file. In its simplest you give the program the repo name you want scanned and it performs a git clone on that repo, it then walks through the repo looking for go.sum files. When it finds one it runs a go mod download and then reads the go.sum file. Next it passes the info read to a function called ScanPath which takes the go sum information and does a strings.split on all new lines. Ranging over that information it formats all of the sub-dependencies in the same way as the go mod download to allow them to be scanned. It then performs a filepath.walk on the path that was just made and searches for License files. Finally it copies those files into the dst described below in addition there are some special configuration options and flags which will be described below. It also (if available) adds a link to the current github repo
+
+
+# EXAMPLE
+To generate html output and to get git's License guess use the following format when running the program:
+lic-col -repo="https://github.com/JCPrice0024/lic-testRepo5.git" -dst="c:/AllLicenses" -tohtml -git-check
+
+To simply create directory with all licenses use the following format:
+lic-col -repo="https://github.com/JCPrice0024/lic-testRepo5.git" -dst="c:/AllLicenses"
 
 # HOW TO USE
 

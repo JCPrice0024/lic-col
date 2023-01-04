@@ -10,7 +10,7 @@ import (
 func main() {
 
 	gitValidation := flag.Bool("git-check", false, "git-check allows for githubapi validation, it requires you to enter your github personal access token and username via Standard Input.")
-	repo := flag.String("repo", "", "The repo flag is the github repo you'd like to scan, it can be in the form https://github.com/owner/reponame or git@github.com:owner/reponame")
+	repo := flag.String("repo", "", "The repo flag is the github repo you'd like to scan, it can be in the form https://github.com/owner/reponame.git or git@github.com:owner/reponame.git")
 	dst := flag.String("dst", "", "The dst flag is the path where you want all of the scanned licenses to go")
 	cleanupMod := flag.Bool("clean-mod", false, "The clean-mod flag will remove all downloaded folders from the go mod download")
 	cleanupClone := flag.Bool("clean-clone", false, "The clean-clone flag will remove all downloaded folders from the git clone")
