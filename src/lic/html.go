@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"html/template"
-	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -106,6 +105,5 @@ func (s *Scanner) CreateHTMLLicense(licPath string, data []byte) error {
 	if err != nil {
 		return fmt.Errorf("error executing html: %w", err)
 	}
-	log.Println("HTML LICENSE COPIED!!!")
 	return nil
 }

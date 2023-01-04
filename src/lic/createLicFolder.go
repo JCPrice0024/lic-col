@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -54,7 +53,6 @@ func (s *Scanner) CreateLicFolder(licPath string, data []byte) error {
 	if err != nil {
 		return fmt.Errorf("error copying license file: %w", err)
 	}
-	log.Println("LICENSE COPIED!!!")
 	return nil
 }
 

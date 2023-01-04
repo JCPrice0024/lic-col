@@ -105,7 +105,6 @@ func (l *Launch) LaunchProgram() error {
 	}
 	if l.CleanupClone {
 		log.Println("Cleaning Clone")
-		fmt.Println(clone)
 		err = os.RemoveAll(clone)
 		if err != nil {
 			return fmt.Errorf("error removing clone: clone: %s err: %w", clone, err)
