@@ -1,3 +1,6 @@
+# GO REPORT
+[![Go Report](https://goreportcard.com/badge/github.com/JCPrice0024/lic-col)](https://goreportcard.com/badge/github.com/JCPrice0024/lic-col)
+
 # lic-col
 lic-col or License Collector is an opensource program that finds and collects all licenses in a program's sub-dependencies. The motivation behind this project was to quickly and efficiently copy all License files in your sub-dependencies to a single folder that you can place in your project. It is important to get all of the licenses of your sub-dependencies because when you import code that is not your's you MUST also import the license that is used to not be subject to legal problems (This is a condition in most License files). Another motivation of this program was also to help make sure your program isn't importing any licenses that could harm your code, (like a copy-left license in a closed source project).
 
@@ -82,7 +85,7 @@ There is also an example in the base config files. To create your own override l
 cache.json
 This config file is special. This one is not pre-configured but is made after the program is lauched. It is only made if you use the git-check command line arg. It holds all requested license names for a project. This is so that if you run the program multiple times you won't have to spam the githubapi as the info will be stored here. 
 
-# SONAR RESULTS
+# SONAR RESULTS 
 ![image](https://user-images.githubusercontent.com/111247018/210660570-069e6dc3-bbab-4681-a162-31f3a8e18547.png)
 
 
