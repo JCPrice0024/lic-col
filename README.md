@@ -1,4 +1,3 @@
-# GO REPORT
 [![Go Report](https://goreportcard.com/badge/github.com/JCPrice0024/lic-col)](https://goreportcard.com/badge/github.com/JCPrice0024/lic-col)
 
 # lic-col
