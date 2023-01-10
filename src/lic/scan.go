@@ -12,11 +12,11 @@ import (
 	"strings"
 )
 
-// UnknownLicense is the key for any licenses that we cannot find in our DefinedJson.
-const UnknownLicense = "Unknown License"
+// unknownLicense is the key for any licenses that we cannot find in our DefinedJson.
+const unknownLicense = "Unknown License"
 
-// NoLicense is the key for any repos that we cannot find a license file in.
-const NoLicense = "No License"
+// noLicense is the key for any repos that we cannot find a license file in.
+const noLicense = "No License"
 
 // The Scanner struct is the main object we use for our FileWalk and ScanPath. It holds all the paths
 // maps and other things we need.
@@ -32,55 +32,55 @@ type Scanner struct {
 	ToHTML            bool
 	Licensecanned     bool
 	Template          *template.Template
-	CompletedApiCheck CompletedApiCheck
-	Exclusions        Exclusions
-	ExcludedEXT       ExcludedEXT
-	Inclusions        Inclusions
-	Override          Overrides
-	Licenses          Licenses
-	LicenseType       map[string][]LicenseInfo
+	CompletedApiCheck completedApiCheck
+	Exclusions        exclusions
+	ExcludedEXT       excludedEXT
+	Inclusions        inclusions
+	Override          overrides
+	Licenses          licenses
+	LicenseType       map[string][]licenseInfo
 }
 
-// LicenseInfo is a struct that holds License information for use in making the LicTypesFile and all html files.
-type LicenseInfo struct {
+// licenseInfo is a struct that holds License information for use in making the LicTypesFile and all html files.
+type licenseInfo struct {
 	Filepath   string
 	Filename   string
 	GitLink    string
 	GitLicense string
 }
 
-// InitScanner creates a scanner object for scan path.
-func InitScanner(gopath, modpath, dstpath, gitUser, gitToken string, tohtml bool) (*Scanner, error) {
+// initScanner creates a scanner object for scan path.
+func initScanner(gopath, modpath, dstpath, gitUser, gitToken string, tohtml bool) (*Scanner, error) {
 
-	excls, err := InitExclusions(gopath)
-	if err != nil {
-		return nil, err
-	}
-
-	exc, err := InitExcludedEXT(gopath)
+	excls, err := initExclusions(gopath)
 	if err != nil {
 		return nil, err
 	}
 
-	inc, err := InitInclusions(gopath)
+	exc, err := initExcludedEXT(gopath)
 	if err != nil {
 		return nil, err
 	}
 
-	licenses, err := InitLicense(gopath)
+	inc, err := initInclusions(gopath)
 	if err != nil {
 		return nil, err
 	}
 
-	ovr, err := InitOverrides(gopath)
+	licenses, err := initLicense(gopath)
 	if err != nil {
 		return nil, err
 	}
-	api, err := CreateCache(gopath)
+
+	ovr, err := initOverrides(gopath)
 	if err != nil {
 		return nil, err
 	}
-	tmpl := InitLicTemplate()
+	api, err := createCache(gopath)
+	if err != nil {
+		return nil, err
+	}
+	tmpl := initLicTemplate()
 
 	return &Scanner{
 		Gopath:            gopath,
@@ -97,13 +97,13 @@ func InitScanner(gopath, modpath, dstpath, gitUser, gitToken string, tohtml bool
 		Exclusions:        excls,
 		Inclusions:        inc,
 		Override:          ovr,
-		LicenseType:       make(map[string][]LicenseInfo)}, nil
+		LicenseType:       make(map[string][]licenseInfo)}, nil
 }
 
-// DependencyCheck first conforms the dependency string provided by ScanPath into the correct format for
+// dependencyCheck first conforms the dependency string provided by ScanPath into the correct format for
 // the ModPath. It then checks the ModPath to make sure the dependency exists. This is to
 // prep the paths for a filewalk in ScanPath.
-func (s *Scanner) DependencyCheck(d string) string {
+func (s *Scanner) dependencyCheck(d string) string {
 	parts := strings.Split(d, "/go.mod")
 	if len(parts) <= 1 {
 		return ""
@@ -131,24 +131,24 @@ func (s *Scanner) DependencyCheck(d string) string {
 	return path
 }
 
-// ScanOverride scans all overrided files and creates the copies for them. It will be a .html file if -tohtml is used
+// scanOverride scans all overrided files and creates the copies for them. It will be a .html file if -tohtml is used
 // in the Command Line Args.
-func (s *Scanner) ScanOverride(path, ovrPath string) error {
+func (s *Scanner) scanOverride(path, ovrPath string) error {
 	licOvr := s.Override[ovrPath].License + " " + "OVERRIDE"
 	ovrFile := filepath.Join(path, s.Override[ovrPath].Filename)
-	htmlOvr := fmt.Sprintf("Licenses/%s", filepath.Base(s.Override[ovrPath].Filename)+LicPathCleanup(filepath.Dir(ovrFile), true)+".html")
+	htmlOvr := fmt.Sprintf("Licenses/%s", filepath.Base(s.Override[ovrPath].Filename)+licPathCleanup(filepath.Dir(ovrFile), true)+".html")
 	_, ok := s.LicenseType[licOvr]
 	if !ok {
-		s.LicenseType[licOvr] = []LicenseInfo{{
-			Filename:   LicPathCleanup(ovrFile, false),
+		s.LicenseType[licOvr] = []licenseInfo{{
+			Filename:   licPathCleanup(ovrFile, false),
 			Filepath:   htmlOvr,
-			GitLink:    GetLink(path),
+			GitLink:    getLink(path),
 			GitLicense: s.GitLicense}}
 	} else {
-		s.LicenseType[licOvr] = append(s.LicenseType[licOvr], LicenseInfo{
-			Filename:   LicPathCleanup(ovrFile, false),
+		s.LicenseType[licOvr] = append(s.LicenseType[licOvr], licenseInfo{
+			Filename:   licPathCleanup(ovrFile, false),
 			Filepath:   htmlOvr,
-			GitLink:    GetLink(path),
+			GitLink:    getLink(path),
 			GitLicense: s.GitLicense})
 	}
 	bs, err := os.ReadFile(ovrFile)
@@ -156,9 +156,9 @@ func (s *Scanner) ScanOverride(path, ovrPath string) error {
 		return fmt.Errorf("unable to read file: %w", err)
 	}
 	if s.ToHTML {
-		err = s.CreateHTMLLicense(ovrFile, bs)
+		err = s.createHTMLLicense(ovrFile, bs)
 	} else {
-		err = s.CreateLicFolder(ovrFile, bs)
+		err = s.createLicFolder(ovrFile, bs)
 	}
 	if err != nil {
 		return err
@@ -166,9 +166,9 @@ func (s *Scanner) ScanOverride(path, ovrPath string) error {
 	return nil
 }
 
-// GetGitParts takes in a path that has github.com in it. It then splits the
+// getGitParts takes in a path that has github.com in it. It then splits the
 // path into the parts used by github. (example output: [github.com owner reponame]).
-func GetGitParts(path string) []string {
+func getGitParts(path string) []string {
 	if !strings.Contains(path, "github.com") {
 		return []string{}
 	}
@@ -201,9 +201,9 @@ func GetGitParts(path string) []string {
 	return strings.Split(p, string(filepath.Separator))
 }
 
-// GetLink gets a link from the github repo if available.
-func GetLink(path string) string {
-	parts := GetGitParts(path)
+// getLink gets a link from the github repo if available.
+func getLink(path string) string {
+	parts := getGitParts(path)
 	if len(parts) < 3 {
 		return ""
 	}
@@ -211,17 +211,17 @@ func GetLink(path string) string {
 	return link
 }
 
-// GetGitLicense get's the git license from the githubapi.
-func (s *Scanner) GetGitLicense(path string) error {
+// getGitLicense get's the git license from the githubapi.
+func (s *Scanner) getGitLicense(path string) error {
 	var err error
-	parts := GetGitParts(path)
-	gitLic := Repo{}
+	parts := getGitParts(path)
+	gitLic := repo{}
 	var apiErr error
 	if len(parts) >= 3 && s.GitUser != "" && s.GitToken != "" {
 		lic, ok := s.CompletedApiCheck[fmt.Sprintf("%s/%s", parts[1], parts[2])]
 		if !ok {
-			gitLic, apiErr = GetRepoInfo(parts[1], parts[2], s.GitUser, s.GitToken)
-			reachLimit := gitLic.CalcGitApiSleep()
+			gitLic, apiErr = getRepoInfo(parts[1], parts[2], s.GitUser, s.GitToken)
+			reachLimit := gitLic.calcGitApiSleep()
 			if reachLimit {
 				s.GitUser = ""
 				s.GitToken = ""
@@ -237,7 +237,7 @@ func (s *Scanner) GetGitLicense(path string) error {
 		log.Printf("If this is a private repo enter a username and personal acess token as Command Line Args")
 	}
 	if len(s.CompletedApiCheck)%10 == 0 {
-		err = CreateCacheFile(s.Gopath, s.CompletedApiCheck)
+		err = createCacheFile(s.Gopath, s.CompletedApiCheck)
 		if err != nil {
 			return err
 		}
@@ -255,34 +255,34 @@ func (s *Scanner) ScanPath() error {
 	toScan := ""
 	for _, d := range dependencies {
 		d = strings.TrimSpace(d)
-		toScan = s.DependencyCheck(d)
+		toScan = s.dependencyCheck(d)
 		if toScan == "" {
 			continue
 		}
-		err = s.GetGitLicense(toScan)
+		err = s.getGitLicense(toScan)
 		if err != nil {
 			return err
 		}
-		err := filepath.Walk(toScan, s.FileWalk)
+		err := filepath.Walk(toScan, s.fileWalk)
 		if err != nil {
 			return err
 		}
 		if !s.Licensecanned {
-			_, ok := s.LicenseType[NoLicense]
-			licInfo := LicenseInfo{Filename: LicPathCleanup(toScan, false),
+			_, ok := s.LicenseType[noLicense]
+			licInfo := licenseInfo{Filename: licPathCleanup(toScan, false),
 				Filepath:   filepath.Dir(toScan),
-				GitLink:    GetLink(toScan),
+				GitLink:    getLink(toScan),
 				GitLicense: s.GitLicense}
 			if !ok {
-				s.LicenseType[NoLicense] = []LicenseInfo{licInfo}
+				s.LicenseType[noLicense] = []licenseInfo{licInfo}
 			} else {
-				s.LicenseType[NoLicense] = append(s.LicenseType[NoLicense], licInfo)
+				s.LicenseType[noLicense] = append(s.LicenseType[noLicense], licInfo)
 			}
 		}
 		s.Licensecanned = false
 		s.GitLicense = ""
 	}
-	err = CreateLicTypesFile(*s)
+	err = createLicTypesFile(*s)
 	if err != nil {
 		return err
 	}
@@ -290,19 +290,19 @@ func (s *Scanner) ScanPath() error {
 	return nil
 }
 
-// FileWalk is a Walkfn for filepath.Walk in ScanPath. It walks through all folders and files in a repo and looks for anything
+// fileWalk is a Walkfn for filepath.Walk in ScanPath. It walks through all folders and files in a repo and looks for anything
 // relating to a license.
-func (s *Scanner) FileWalk(path string, info fs.FileInfo, err error) error {
+func (s *Scanner) fileWalk(path string, info fs.FileInfo, err error) error {
 	if err != nil {
 		return fmt.Errorf("error with file walk: %w", err)
 	}
-	if !IsLicenseFile(path) {
+	if !isLicenseFile(path) {
 		ovrPath := strings.Split(path, s.ModPath+string(filepath.Separator))
 		if len(ovrPath) == 2 {
 			_, ok := s.Override[ovrPath[1]]
 			if ok {
 				s.Licensecanned = true
-				return s.ScanOverride(path, ovrPath[1])
+				return s.scanOverride(path, ovrPath[1])
 			}
 		}
 		_, ok := s.Inclusions[info.Name()]
@@ -322,39 +322,11 @@ func (s *Scanner) FileWalk(path string, info fs.FileInfo, err error) error {
 	if err != nil {
 		return fmt.Errorf("unable to read file: %w", err)
 	}
-	/*licDef := DefinitionFormat(string(bs))
-	classified := false
-	licenseHTMLPath := filepath.Base(path) + LicPathCleanup(filepath.Dir(path), true) + ".html"
-	licInfo := LicenseInfo{Filename: LicPathCleanup(path, false),
-		Filepath:   fmt.Sprintf("Licenses/%s", licenseHTMLPath),
-		GitLink:    GetLink(path),
-		GitLicense: s.GitLicense}
-	for license, def := range s.Licenses {
-		if strings.Contains(licDef, def) {
-			_, ok = s.LicenseType[license]
-			if !ok {
-				s.LicenseType[license] = []LicenseInfo{licInfo}
-			} else {
-				s.LicenseType[license] = append(s.LicenseType[license], licInfo)
-			}
-			classified = true
-			break
-		}
-	}
-	if !classified {
-		_, ok = s.LicenseType[UnknownLicense]
-		if !ok {
-			s.LicenseType[UnknownLicense] = []LicenseInfo{licInfo}
-		} else {
-			s.LicenseType[UnknownLicense] = append(s.LicenseType[UnknownLicense], licInfo)
-		}
-	}
-	*/
 	s.checkLicenses(bs, path)
 	if s.ToHTML {
-		err = s.CreateHTMLLicense(path, bs)
+		err = s.createHTMLLicense(path, bs)
 	} else {
-		err = s.CreateLicFolder(path, bs)
+		err = s.createLicFolder(path, bs)
 	}
 	if err != nil {
 		return err
@@ -363,6 +335,7 @@ func (s *Scanner) FileWalk(path string, info fs.FileInfo, err error) error {
 	return nil
 }
 
+// checkExcluded checks the given path/filename to see if they need to be excluded.
 func (s *Scanner) checkExcluded(path, filename string) bool {
 	_, ok := s.Exclusions[path]
 	if ok {
@@ -376,19 +349,20 @@ func (s *Scanner) checkExcluded(path, filename string) bool {
 	return ok
 }
 
+// checkLicenses checks the given license to see if it matches any of our defined licenses.
 func (s *Scanner) checkLicenses(bs []byte, path string) {
-	licDef := DefinitionFormat(string(bs))
+	licDef := definitionFormat(string(bs))
 	classified := false
-	licenseHTMLPath := filepath.Base(path) + LicPathCleanup(filepath.Dir(path), true) + ".html"
-	licInfo := LicenseInfo{Filename: LicPathCleanup(path, false),
+	licenseHTMLPath := filepath.Base(path) + licPathCleanup(filepath.Dir(path), true) + ".html"
+	licInfo := licenseInfo{Filename: licPathCleanup(path, false),
 		Filepath:   fmt.Sprintf("Licenses/%s", licenseHTMLPath),
-		GitLink:    GetLink(path),
+		GitLink:    getLink(path),
 		GitLicense: s.GitLicense}
 	for license, def := range s.Licenses {
 		if strings.Contains(licDef, def) {
 			_, ok := s.LicenseType[license]
 			if !ok {
-				s.LicenseType[license] = []LicenseInfo{licInfo}
+				s.LicenseType[license] = []licenseInfo{licInfo}
 			} else {
 				s.LicenseType[license] = append(s.LicenseType[license], licInfo)
 			}
@@ -397,11 +371,11 @@ func (s *Scanner) checkLicenses(bs []byte, path string) {
 		}
 	}
 	if !classified {
-		_, ok := s.LicenseType[UnknownLicense]
+		_, ok := s.LicenseType[unknownLicense]
 		if !ok {
-			s.LicenseType[UnknownLicense] = []LicenseInfo{licInfo}
+			s.LicenseType[unknownLicense] = []licenseInfo{licInfo}
 		} else {
-			s.LicenseType[UnknownLicense] = append(s.LicenseType[UnknownLicense], licInfo)
+			s.LicenseType[unknownLicense] = append(s.LicenseType[unknownLicense], licInfo)
 		}
 	}
 }

@@ -30,8 +30,8 @@ type Launch struct {
 	Scanner          Scanner
 }
 
-// InitLaunch creates a launch struct for use in starting the program.
-func (l *Launch) InitLaunch() error {
+// initLaunch creates a launch struct for use in starting the program.
+func (l *Launch) initLaunch() error {
 	gopath := os.Getenv("GOPATH")
 	if gopath == "" {
 		return errors.New("no GOPATH found")
@@ -41,12 +41,12 @@ func (l *Launch) InitLaunch() error {
 	var user string
 	var err error
 	if l.GitCheck {
-		token, user, err = GitInfo()
+		token, user, err = gitInfo()
 		if err != nil {
 			return err
 		}
 	}
-	scan, err := InitScanner(gopath, modpath, l.Dst, user, token, l.ToHTML)
+	scan, err := initScanner(gopath, modpath, l.Dst, user, token, l.ToHTML)
 	if err != nil {
 		return err
 	}
@@ -61,16 +61,16 @@ func (l *Launch) InitLaunch() error {
 // Command Line Args.
 func (l *Launch) LaunchProgram() error {
 	var err error
-	err = l.InitLaunch()
+	err = l.initLaunch()
 	if err != nil {
 		return err
 	}
 	if l.CleanupMod {
-		filepath.Walk(l.ModPath, l.DownloadedWalk)
+		filepath.Walk(l.ModPath, l.downloadedWalk)
 	}
 
 	log.Println("Calling CloneRepo")
-	clone, err := l.CloneRepo()
+	clone, err := l.cloneRepo()
 	if err != nil {
 		return err
 	}
@@ -81,9 +81,9 @@ func (l *Launch) LaunchProgram() error {
 
 	log.Println("Scanning Cloned Repo")
 
-	l.Scanner.GetGitLicense(clone)
+	l.Scanner.getGitLicense(clone)
 
-	err = filepath.Walk(clone, l.Scanner.FileWalk)
+	err = filepath.Walk(clone, l.Scanner.fileWalk)
 	if err != nil {
 		return err
 	}
@@ -91,13 +91,13 @@ func (l *Launch) LaunchProgram() error {
 	log.Println("Finished Scanning Cloned Repo")
 
 	l.Scanner.GitLicense = ""
-	err = filepath.Walk(clone, l.SumWalk)
+	err = filepath.Walk(clone, l.sumWalk)
 	if err != nil {
 		return err
 	}
 	if l.CleanupMod {
 		log.Println("Cleaning mod path")
-		err = filepath.Walk(l.ModPath, l.CleanerWalk)
+		err = filepath.Walk(l.ModPath, l.cleanerWalk)
 		if err != nil {
 			return err
 		}
@@ -114,7 +114,7 @@ func (l *Launch) LaunchProgram() error {
 
 	if l.ToHTML {
 		log.Println("Creating HTML Index")
-		err = l.CreateHtmlIndex()
+		err = l.createHtmlIndex()
 		if err != nil {
 			return err
 		}
@@ -123,8 +123,8 @@ func (l *Launch) LaunchProgram() error {
 	return nil
 }
 
-// GitInfo safely gets the Git Username and Personal Access Token from Standard Input.
-func GitInfo() (string, string, error) {
+// gitInfo safely gets the Git Username and Personal Access Token from Standard Input.
+func gitInfo() (string, string, error) {
 	var potentialUsername *bufio.Reader = bufio.NewReader(os.Stdin)
 	log.Println("ENTER USERNAME: ")
 	Username, err := potentialUsername.ReadString('\n')
@@ -141,9 +141,9 @@ func GitInfo() (string, string, error) {
 	return token, Username, nil
 }
 
-// CloneRepo performs a git clone on the provided repo. If there is a version tag
-// CloneRepo also performs a git checkout on that version.
-func (l *Launch) CloneRepo() (string, error) {
+// cloneRepo performs a git clone on the provided repo. If there is a version tag
+// cloneRepo also performs a git checkout on that version.
+func (l *Launch) cloneRepo() (string, error) {
 	repoDir := ""
 	repoBase := ""
 	if strings.Contains(l.Repo, "https://") {
@@ -197,9 +197,9 @@ func (l *Launch) CloneRepo() (string, error) {
 	return repoDir, nil
 }
 
-// CleanerWalk performs a filepath.Walk on the modpath at the end of the program and deletes all
+// cleanerWalk performs a filepath.Walk on the modpath at the end of the program and deletes all
 // of the go mod downloads that were not there before. This is only called if -clean-mod is called.
-func (l *Launch) CleanerWalk(path string, info fs.FileInfo, err error) error {
+func (l *Launch) cleanerWalk(path string, info fs.FileInfo, err error) error {
 	if err != nil {
 		if errors.Is(err, os.ErrNotExist) {
 			return nil
@@ -222,10 +222,10 @@ func (l *Launch) CleanerWalk(path string, info fs.FileInfo, err error) error {
 	return nil
 }
 
-// DownloadedWalk is a helper function to CleanerWalk. It runs at the beginning of the program
+// downloadedWalk is a helper function to CleanerWalk. It runs at the beginning of the program
 // and performs a filepath.Walk on the modpath to prevent the deletion of any pre go mod downloads.
 // This function is only called if you use -clean-mod.
-func (l *Launch) DownloadedWalk(path string, info fs.FileInfo, err error) error {
+func (l *Launch) downloadedWalk(path string, info fs.FileInfo, err error) error {
 	if err != nil {
 		return fmt.Errorf(filepathErrMsg, err)
 	}
@@ -240,9 +240,9 @@ func (l *Launch) DownloadedWalk(path string, info fs.FileInfo, err error) error 
 	return nil
 }
 
-// SumWalk performs a filepath.Walk on the provided repo and finds all go.sum files in the repo
+// sumWalk performs a filepath.Walk on the provided repo and finds all go.sum files in the repo
 // for scanning. It also performs the go mod download on the repo.
-func (l *Launch) SumWalk(path string, info fs.FileInfo, err error) error {
+func (l *Launch) sumWalk(path string, info fs.FileInfo, err error) error {
 	if err != nil {
 		return fmt.Errorf(filepathErrMsg, err)
 	}
