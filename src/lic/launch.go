@@ -215,7 +215,6 @@ func (l *Launch) cleanerWalk(path string, info fs.FileInfo, err error) error {
 		return nil
 	}
 	err = os.RemoveAll(path)
-	log.Println("Removed: ", path)
 	if err != nil {
 		return fmt.Errorf("error removing path:  path: %s err: %w", path, err)
 	}
