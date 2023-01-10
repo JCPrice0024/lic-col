@@ -9,8 +9,8 @@ import (
 	"strings"
 )
 
-// InitLicTemplate creates the template used to convert all License files into .html files.
-func InitLicTemplate() *template.Template {
+// initLicTemplate creates the template used to convert all License files into .html files.
+func initLicTemplate() *template.Template {
 	layout := `<!DOCTYPE html>
 	<html lang="en">
 	<head>
@@ -29,10 +29,10 @@ func InitLicTemplate() *template.Template {
 
 }
 
-// CreateHtmlIndex creates an index .html file that is used for organizing all copied files into html.
+// createHtmlIndex creates an index .html file that is used for organizing all copied files into html.
 // The html index also makes a link that can be used to go to the scanned License's current github repo a
 // and it uses the gitapi to get the current repo's license in case it's changed.
-func (l *Launch) CreateHtmlIndex() error {
+func (l *Launch) createHtmlIndex() error {
 	err := os.Remove(filepath.Join(l.Dst, l.Scanner.LicFolder, "index.html"))
 	if err != nil {
 		if !errors.Is(err, os.ErrNotExist) {
@@ -82,14 +82,14 @@ func (l *Launch) CreateHtmlIndex() error {
 	return nil
 }
 
-// CreateHTMLLicense copies each indivual license into html to be viewed by the index file.
-func (s *Scanner) CreateHTMLLicense(licPath string, data []byte) error {
+// createHTMLLicense copies each indivual license into html to be viewed by the index file.
+func (s *Scanner) createHTMLLicense(licPath string, data []byte) error {
 	licFolder := filepath.Join(s.DstPath, s.LicFolder, "Licenses")
 	err := os.MkdirAll(licFolder, os.ModePerm)
 	if err != nil {
 		return fmt.Errorf("error making license folder directory: %w", err)
 	}
-	licNameExt := LicPathCleanup(filepath.Dir(licPath), true)
+	licNameExt := licPathCleanup(filepath.Dir(licPath), true)
 
 	dstFileName := filepath.Base(licPath) + licNameExt + ".html"
 

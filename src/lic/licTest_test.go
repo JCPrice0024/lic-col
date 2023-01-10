@@ -19,7 +19,7 @@ func TestLicTestRepoHtml(t *testing.T) {
 		ToHTML:       true,
 		GitCheck:     false,
 	}
-	err := launcher.CreateHtmlIndex()
+	err := launcher.createHtmlIndex()
 	if err == nil {
 		t.Fatal("Exepected err got nil")
 	}
@@ -28,7 +28,7 @@ func TestLicTestRepoHtml(t *testing.T) {
 		log.Println(err)
 		t.Fatalf("FAILED SCAN: %v", err)
 	}
-	expected := map[string][]LicenseInfo{}
+	expected := map[string][]licenseInfo{}
 	exp, err := os.Open(filepath.Join("c:", string(filepath.Separator), "Users", "coold", "go", "src", "github.com", "JCPrice0024", "lic-col", "Config", "expectedresults.json"))
 	if err != nil {
 		log.Println(err)
@@ -62,7 +62,7 @@ func TestLicTestRepo(t *testing.T) {
 		ToHTML:       false,
 		GitCheck:     false,
 	}
-	err := CreateLicTypesFile(launcher.Scanner)
+	err := createLicTypesFile(launcher.Scanner)
 	if err == nil {
 		t.Fatal("Exepected err got nil")
 	}
@@ -71,7 +71,7 @@ func TestLicTestRepo(t *testing.T) {
 		log.Println(err)
 		t.Fatalf("FAILED SCAN: %v", err)
 	}
-	expected := map[string][]LicenseInfo{}
+	expected := map[string][]licenseInfo{}
 	exp, err := os.Open(filepath.Join("c:", string(filepath.Separator), "Users", "coold", "go", "src", "github.com", "JCPrice0024", "lic-col", "Config", "expectedresults.json"))
 	if err != nil {
 		log.Println(err)
@@ -97,31 +97,31 @@ func TestLicTestRepo(t *testing.T) {
 
 func TestConfigErrs(t *testing.T) {
 	var err error
-	_, err = InitExcludedEXT("")
+	_, err = initExcludedEXT("")
 	if err != nil {
 		t.Fatalf("No file should not be an error: %v", err)
 	}
-	_, err = InitExclusions("")
+	_, err = initExclusions("")
 	if err != nil {
 		t.Fatalf("No file should not be an error: %v", err)
 	}
-	_, err = InitInclusions("")
+	_, err = initInclusions("")
 	if err != nil {
 		t.Fatalf("No file should not be an error: %v", err)
 	}
-	_, err = InitLicense("")
+	_, err = initLicense("")
 	if err != nil {
 		t.Fatalf("No file should not be an error: %v", err)
 	}
-	_, err = InitOverrides("")
+	_, err = initOverrides("")
 	if err != nil {
 		t.Fatalf("No file should not be an error: %v", err)
 	}
-	_, err = CreateCache("")
+	_, err = createCache("")
 	if err != nil {
 		t.Fatalf("No file should not be an error: %v", err)
 	}
-	err = CreateCacheFile("", CompletedApiCheck{})
+	err = createCacheFile("", completedApiCheck{})
 	if err == nil {
 		t.Fatalf("File shouldn't exist: %v", err)
 	}
@@ -131,27 +131,27 @@ func TestGithubApiPull(t *testing.T) {
 	scan := Scanner{
 		GitUser:           "JCPrice0024",
 		GitToken:          "NOTATOKEN",
-		CompletedApiCheck: make(CompletedApiCheck),
+		CompletedApiCheck: make(completedApiCheck),
 		GitLicense:        "",
 	}
-	err := scan.GetGitLicense(filepath.Join(os.Getenv("GOPATH"), "src", "github.com", "JCPrice0024", "lic-testRepo5"))
+	err := scan.getGitLicense(filepath.Join(os.Getenv("GOPATH"), "src", "github.com", "JCPrice0024", "lic-testRepo5"))
 	if err != nil {
 		t.Fatalf("Failed to get Git License: %v", err)
 	}
 
-	err = scan.GetGitLicense(filepath.Join(os.Getenv("GOPATH"), "src", "github.com", "JCPrice0024", "lic-testRepo5", "src"))
+	err = scan.getGitLicense(filepath.Join(os.Getenv("GOPATH"), "src", "github.com", "JCPrice0024", "lic-testRepo5", "src"))
 	if err != nil {
 		t.Fatalf("Failed to get Git License a 2nd time: %v", err)
 	}
 
-	gitApi := Repo{
+	gitApi := repo{
 		Remaining: 50,
 	}
-	if gitApi.CalcGitApiSleep() {
+	if gitApi.calcGitApiSleep() {
 		t.Fatal("Expected to be near limit")
 	}
 	gitApi.Remaining = 1500
-	if gitApi.CalcGitApiSleep() {
+	if gitApi.calcGitApiSleep() {
 		t.Fatal("Expected not to be near limit")
 	}
 }

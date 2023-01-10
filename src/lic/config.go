@@ -6,9 +6,9 @@ import (
 	"os"
 )
 
-// InitJsonConfigs decodes filename into the interface i. This makes it easier to
+// initJsonConfigs decodes filename into the interface i. This makes it easier to
 // get the required information from the Config files.
-func InitJsonConfigs(filename string, i interface{}) error {
+func initJsonConfigs(filename string, i interface{}) error {
 	file, err := os.Open(filename)
 	if err != nil {
 		return fmt.Errorf("error opening file:  file: %s err: %w", filename, err)

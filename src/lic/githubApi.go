@@ -9,27 +9,27 @@ import (
 	"time"
 )
 
-// Repo is a struct used to get the License from the githubapi
-type Repo struct {
+// repo is a struct used to get the License from the githubapi
+type repo struct {
 	Limit     int
 	Remaining int
 	Reset     time.Time
-	License   License `json:"license"`
+	License   license `json:"license"`
 }
 
-// MinimumRem is the minimum amount of remaining requests before the program no longer requests from the githubapi
-const MinimumRem = 400
+// minimumRem is the minimum amount of remaining requests before the program no longer requests from the githubapi
+const minimumRem = 400
 
-// License is a struct used to get only the License name from the githubapi
-type License struct {
+// license is a struct used to get only the license name from the githubapi
+type license struct {
 	Name string `json:"name"`
 }
 
-// GetRepoInfo makes a http.Request to the github api and gets a License name, if available,
+// getRepoInfo makes a http.Request to the github api and gets a License name, if available,
 // from the repo currently being scanned. This can only be used if the user provides a
 // git-token and git-username.
-func GetRepoInfo(owner, repoName, username, token string) (Repo, error) {
-	repo := Repo{}
+func getRepoInfo(owner, repoName, username, token string) (repo, error) {
+	repo := repo{}
 	req, err := http.NewRequest("GET", fmt.Sprintf("https://api.github.com/repos/%s/%s", owner, repoName), nil)
 	if err != nil {
 		return repo, err
@@ -87,14 +87,14 @@ func parseIntLogging(field, input string) int64 {
 	return tmpReset
 }
 
-// CalcGitApiSleep is a function that prevents overloading the gitapi with too many requests
+// calcGitApiSleep is a function that prevents overloading the gitapi with too many requests
 // in an hour. DO NOT REMOVE THIS FUNCTION!
-func (r *Repo) CalcGitApiSleep() (nearLimit bool) {
+func (r *repo) calcGitApiSleep() (nearLimit bool) {
 	if r.Remaining > r.Limit/2 {
 		time.Sleep(time.Millisecond * 50)
 		return false
 	}
-	if r.Remaining < MinimumRem {
+	if r.Remaining < minimumRem {
 		log.Printf("TOKEN REQUEST NEARING LIMIT STOPPING GITHUB API CALL TRY AGAIN AT: %v", r.Reset)
 		return true
 	}
