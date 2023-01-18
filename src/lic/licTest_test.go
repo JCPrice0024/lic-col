@@ -109,7 +109,7 @@ func TestConfigErrs(t *testing.T) {
 	if err != nil {
 		t.Fatalf("No file should not be an error: %v", err)
 	}
-	_, err = initLicense("")
+	_, err = InitLicense("")
 	if err != nil {
 		t.Fatalf("No file should not be an error: %v", err)
 	}

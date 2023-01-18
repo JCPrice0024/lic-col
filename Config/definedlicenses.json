@@ -1,24 +1,309 @@
-{
-   "Apache 2.0": "Apache License Version 2.0",
-   "Apache 1.1": "The Apache Software License, Version 1.1",
-   "Apache 1.0": "All advertising materials mentioning features or use of this\n\t*    software must display the following acknowledgment:\n\t*    \"This product includes software developed by the Apache Group\n\t*    for use in the Apache HTTP server project (http://www.apache.org/).\"",
-   "CDDL":"COMMON DEVELOPMENT AND DISTRIBUTION LICENSE Version 1.0 (CDDL-1.0) (text)\n\n\t1. Definitions.\n\t\n\t1.1. Contributor means each individual or entity that creates or contributes to the creation of Modifications.\n\t\n\t1.2. Contributor Version means the combination of the Original Software, prior Modifications used by a Contributor (if any), and the Modifications made by that particular Contributor.\n\t\n\t1.3. Covered Software means (a) the Original Software, or (b) Modifications, or (c) the combination of files containing Original Software with files containing Modifications, in each case including portions thereof.\n\t\n\t1.4. Executable means the Covered Software in any form other than Source Code.\n\t\n\t1.5. Initial Developer means the individual or entity that first makes Original Software available under this License.\n\t\n\t1.6. Larger Work means a work which combines Covered Software or portions thereof with code not governed by the terms of this License.\n\t\n\t1.7. License means this document.\n\t\n\t1.8. Licensable means having the right to grant, to the maximum extent possible, whether at the time of the initial grant or subsequently acquired, any and all of the rights conveyed herein.\n\t\n\t1.9. Modifications means the Source Code and Executable form of any of the following:\n\t\n\tA. Any file that results from an addition to, deletion from or modification of the contents of a file containing Original Software or previous Modifications;\n\t\n\tB. Any new file that contains any part of the Original Software or previous Modification; or\n\t\n\tC. Any new file that is contributed or otherwise made available under the terms of this License.\n\t\n\t1.10. Original Software means the Source Code and Executable form of computer software code that is originally released under this License.\n\t\n\t1.11. Patent Claims means any patent claim(s), now owned or hereafter acquired, including without limitation, method, process, and apparatus claims, in any patent Licensable by grantor.\n\t\n\t1.12. Source Code means (a) the common form of computer software code in which modifications are made and (b) associated documentation included in or with such code.\n\t\n\t1.13. You (or Your) means an individual or a legal entity exercising rights under, and complying with all of the terms of, this License. For legal entities, You includes any entity which controls, is controlled by, or is under common control with You. For purposes of this definition, control means (a) the power, direct or indirect, to cause the direction or management of such entity, whether by contract or otherwise, or (b) ownership of more than fifty percent (50%) of the outstanding shares or beneficial ownership of such entity.\n\t\n\t",
-   "Eclipse Public":"THE ACCOMPANYING PROGRAM IS PROVIDED UNDER THE TERMS OF THIS ECLIPSE PUBLIC LICENSE (“AGREEMENT”). ANY USE, REPRODUCTION OR DISTRIBUTION OF THE PROGRAM CONSTITUTES RECIPIENT'S ACCEPTANCE OF THIS AGREEMENT.\n\n\t1. DEFINITIONS\n\t“Contribution” means:\n\t\n\ta) in the case of the initial Contributor, the initial content Distributed under this Agreement, and\n\tb) in the case of each subsequent Contributor:\n\ti) changes to the Program, and\n\tii) additions to the Program;\n\twhere such changes and/or additions to the Program originate from and are Distributed by that particular Contributor. A Contribution “originates” from a Contributor if it was added to the Program by such Contributor itself or anyone acting on such Contributor's behalf. Contributions do not include changes or additions to the Program that are not Modified Works.\n\t“Contributor” means any person or entity that Distributes the Program.\n\t\n\t“Licensed Patents” mean patent claims licensable by a Contributor which are necessarily infringed by the use or sale of its Contribution alone or when combined with the Program.\n\t\n\t“Program” means the Contributions Distributed in accordance with this Agreement.\n\t\n\t“Recipient” means anyone who receives the Program under this Agreement or any Secondary License (as applicable), including Contributors.\n\t\n\t“Derivative Works” shall mean any work, whether in Source Code or other form, that is based on (or derived from) the Program and for which the editorial revisions, annotations, elaborations, or other modifications represent, as a whole, an original work of authorship.\n\t\n\t“Modified Works” shall mean any work in Source Code or other form that results from an addition to, deletion from, or modification of the contents of the Program, including, for purposes of clarity any new file in Source Code form that contains any contents of the Program. Modified Works shall not include works that contain only declarations, interfaces, types, classes, structures, or files of the Program solely in each case in order to link to, bind by name, or subclass the Program or Modified Works thereof.\n\t\n\t“Distribute” means the acts of a) distributing or b) making available in any manner that enables the transfer of a copy.\n\t\n\t“Source Code” means the form of a Program preferred for making modifications, including but not limited to software source code, documentation source, and configuration files.\n\t\n\t“Secondary License” means either the GNU General Public License, Version 2.0, or any later versions of that license, including any exceptions or additional permissions as identified by the initial Contributor.\n\t\n\t2. GRANT OF RIGHTS\n\ta) Subject to the terms of this Agreement, each Contributor hereby grants Recipient a non-exclusive, worldwide, royalty-free copyright license to reproduce, prepare Derivative Works of, publicly display, publicly perform, Distribute and sublicense the Contribution of such Contributor, if any, and such Derivative Works.\n\tb) Subject to the terms of this Agreement, each Contributor hereby grants Recipient a non-exclusive, worldwide, royalty-free patent license under Licensed Patents to make, use, sell, offer to sell, import and otherwise transfer the Contribution of such Contributor, if any, in Source Code or other form. This patent license shall apply to the combination of the Contribution and the Program if, at the time the Contribution is added by the Contributor, such addition of the Contribution causes such combination to be covered by the Licensed Patents. The patent license shall not apply to any other combinations which include the Contribution. No hardware per se is licensed hereunder.\n\tc) Recipient understands that although each Contributor grants the licenses to its Contributions set forth herein, no assurances are provided by any Contributor that the Program does not infringe the patent or other intellectual property rights of any other entity. Each Contributor disclaims any liability to Recipient for claims brought by any other entity based on infringement of intellectual property rights or otherwise. As a condition to exercising the rights and licenses granted hereunder, each Recipient hereby assumes sole responsibility to secure any other intellectual property rights needed, if any. For example, if a third party patent license is required to allow Recipient to Distribute the Program, it is Recipient's responsibility to acquire that license before distributing the Program.\n\td) Each Contributor represents that to its knowledge it has sufficient copyright rights in its Contribution, if any, to grant the copyright license set forth in this Agreement.\n\te) Notwithstanding the terms of any Secondary License, no Contributor makes additional grants to any Recipient (other than those set forth in this Agreement) as a result of such Recipient's receipt of the Program under the terms of a Secondary License (if permitted under the terms of Section 3).",
-   "MIT": "Permission is hereby granted, free of charge, to any person obtaining a copy\n\tof this software and associated documentation files (the \"Software\"), to deal\n\tin the Software without restriction, including without limitation the rights\n\tto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\n\tcopies of the Software, and to permit persons to whom the Software is\n\tfurnished to do so, subject to the following conditions:",
-   "Mozilla Public": "Mozilla Public License, version 2.0\n\n\t1. Definitions\n\t\n\t1.1. \"Contributor\"\n\t\n\tmeans each individual or legal entity that creates, contributes to the\n\tcreation of, or owns Covered Software.\n\t\n\t1.2. \"Contributor Version\"\n\t\n\tmeans the combination of the Contributions of others (if any) used by a\n\tContributor and that particular Contributor's Contribution.\n\t\n\t1.3. \"Contribution\"\n\t\n\tmeans Covered Software of a particular Contributor.\n\t\n\t1.4. \"Covered Software\"\n\t\n\tmeans Source Code Form to which the initial Contributor has attached the\n\tnotice in Exhibit A, the Executable Form of such Source Code Form, and\n\tModifications of such Source Code Form, in each case including portions\n\tthereof.\n\t\n\t1.5. \"Incompatible With Secondary Licenses\"\n\tmeans\n\t\n\ta. that the initial Contributor has attached the notice described in\n\tExhibit B to the Covered Software; or\n\t\n\tb. that the Covered Software was made available under the terms of\n\tversion 1.1 or earlier of the License, but not also under the terms of\n\ta Secondary License.\n\t\n\t1.6. \"Executable Form\"",
-   "Go Authors": "\n\tRedistribution and use in source and binary forms, with or without\n\tmodification, are permitted provided that the following conditions are\n\tmet:\n\t\n\t* Redistributions of source code must retain the above copyright\n\tnotice, this list of conditions and the following disclaimer.\n\t* Redistributions in binary form must reproduce the above\n\tcopyright notice, this list of conditions and the following disclaimer\n\tin the documentation and/or other materials provided with the\n\tdistribution.\n\t* Neither the name of Google Inc. nor the names of its\n\tcontributors may be used to endorse or promote products derived from\n\tthis software without specific prior written permission.",
-   "ISC": "Permission to use, copy, modify, and distribute this software for any\n\tpurpose with or without fee is hereby granted, provided that the above\n\tcopyright notice and this permission notice appear in all copies.",
-   "CC0 1.0 Universal": "CREATIVE COMMONS CORPORATION IS NOT A LAW FIRM AND DOES NOT PROVIDE\nLEGAL SERVICES. DISTRIBUTION OF THIS DOCUMENT DOES NOT CREATE AN\nATTORNEY-CLIENT RELATIONSHIP. CREATIVE COMMONS PROVIDES THIS\nINFORMATION ON AN \"AS-IS\" BASIS. CREATIVE COMMONS MAKES NO WARRANTIES\nREGARDING THE USE OF THIS DOCUMENT OR THE INFORMATION OR WORKS\nPROVIDED HEREUNDER, AND DISCLAIMS LIABILITY FOR DAMAGES RESULTING FROM\nTHE USE OF THIS DOCUMENT OR THE INFORMATION OR WORKS PROVIDED\nHEREUNDER.\n",
-   "Creative Commons Attribution 4.0 International Public License": "By exercising the Licensed Rights (defined below), You accept and agree to\nbe bound by the terms and conditions of this Creative Commons Attribution\n4.0 International Public License (\"Public License\"). ",
-   "FreeType Project": "The FreeType Project is distributed in several archive packages;\nsome of them may contain, in addition to the FreeType font engine,\nvarious tools and contributions which rely on, or relate to, the\nFreeType Project.\n",
-   "SIL Open Font License Version 1.1": "This Font Software is licensed under the SIL Open Font License,\nVersion 1.1.",   
-   "BSD 3-Clause": "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:\n\n\t1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.\n\n\t2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.\n\n\t3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.",
-   "BSD 4-Clause": "Redistribution and use in source and binary forms, with or without\n\tmodification, are permitted provided that the following conditions are met:\n\t\n\t1. Redistributions of source code must retain the above copyright notice, this\n\t   list of conditions and the following disclaimer.\n\t\n\t2. Redistributions in binary form must reproduce the above copyright notice,\n\t   this list of conditions and the following disclaimer in the documentation\n\t   and/or other materials provided with the distribution.\n\t\n\t3. All advertising materials mentioning features or use of this software must\n\t   display the following acknowledgement:\n\t\t This product includes software developed by [project].\n\t\n\t4. Neither the name of the copyright holder nor the names of its\n\t   contributors may be used to endorse or promote products derived from\n\t   this software without specific prior written permission.\n\t",
-   "GNU Free Documentation License 1.1": "The purpose of this License is to make a manual, textbook, or other written document \"free\" in the sense of freedom: to assure everyone the effective freedom to copy and redistribute it, with or without modifying it, either commercially or noncommercially. Secondarily, this License preserves for the author and publisher a way to get credit for their work, while not being considered responsible for modifications made by others.",
-   "GNU Free Documentation License 1.2": "The purpose of this License is to make a manual, textbook, or other functional and useful document \"free\" in the sense of freedom: to assure everyone the effective freedom to copy and redistribute it, with or without modifying it, either commercially or noncommercially. Secondarily, this License preserves for the author and publisher a way to get credit for their work, while not being considered responsible for modifications made by others.",
-   "GNU General Public License Version 1.0": "The license agreements of most software companies try to keep users\n\tat the mercy of those companies.  By contrast, our General Public\n\tLicense is intended to guarantee your freedom to share and change free\n\tsoftware--to make sure the software is free for all its users.  The\n\tGeneral Public License applies to the Free Software Foundation's\n\tsoftware and to any other program whose authors commit to using it.\n\tYou can use it for your programs, too.",
-   "GNU General Public License Version 2.0": "The licenses for most software are designed to take away your freedom to share and change it. By contrast, the GNU General Public License is intended to guarantee your freedom to share and change free software--to make sure the software is free for all its users. This General Public License applies to most of the Free Software Foundation's software and to any other program whose authors commit to using it. (Some other Free Software Foundation software is covered by the GNU Lesser General Public License instead.) You can apply it to your programs, too.",
-   "GNU General Public License Version 3.0": "The licenses for most software and other practical works are designed to take away your freedom to share and change the works. By contrast, the GNU General Public License is intended to guarantee your freedom to share and change all versions of a program--to make sure it remains free software for all its users. We, the Free Software Foundation, use the GNU General Public License for most of our software; it applies also to any other work released this way by its authors. You can apply it to your programs, too.",
-   "GNU Lesser General Public License Version 2.1": "The licenses for most software are designed to take away your freedom to share and change it. By contrast, the GNU General Public Licenses are intended to guarantee your freedom to share and change free software--to make sure the software is free for all its users.",
-   "GNU Lesser General Public License Version 3.0": "This version of the GNU Lesser General Public License incorporates the terms and conditions of version 3 of the GNU General Public License, supplemented by the additional permissions listed below."
+[
+   {
+      "Name": "The Unlicense",
+      "Lines": [
+         "This is free and unencumbered software released into the public domain.",
+         "Anyone is free to copy, modify, publish, use, compile, sell, or",
+         "distribute this software, either in source code form or as a compiled",
+         "binary, for any purpose, commercial or non-commercial, and by any",
+         "means.",
+         "In jurisdictions that recognize copyright laws",
+         "of this software dedicate any and all copyright interest in the",
+         "software to the public domain. We make this dedication for the benefit",
+         "of the public at large and to the detriment of our heirs and",
+         "successors. We intend this dedication to be an overt act of",
+         "relinquishment in perpetuity of all present and future rights to this",
+         "software under copyright law."
+      ]
+   },   
+   {
+      "Name": "SIL Open Font License Version 1.1",
+      "Lines": [
+         "This Font Software is licensed under the SIL Open Font License,",
+         "Version 1.1."
+      ]
+   },
+   {
+      "Name": "Mozilla Public",
+      "Lines": [
+         "Mozilla Public License, version 2.0",
+         "1. Definitions",
+         "1.1. \"Contributor\"",
+         "means each individual or legal entity that creates, contributes to the",
+         "creation of, or owns Covered Software.",
+         "1.2. \"Contributor Version\"",
+         "means the combination of the Contributions of others (if any) used by a",
+         "Contributor and that particular Contributor's Contribution.",
+         "1.3. \"Contribution\"",
+         "means Covered Software of a particular Contributor.",
+         "1.4. \"Covered Software\"",
+         "means Source Code Form to which the initial Contributor has attached the",
+         "notice in Exhibit A, the Executable Form of such Source Code Form, and",
+         "Modifications of such Source Code Form, in each case including portions",
+         "thereof.",
+         "1.5. \"Incompatible With Secondary Licenses\"",
+         "means",
+         "a. that the initial Contributor has attached the notice described in",
+         "Exhibit B to the Covered Software; or",
+         "b. that the Covered Software was made available under the terms of",
+         "version 1.1 or earlier of the License, but not also under the terms of",
+         "a Secondary License.",
+         "1.6. \"Executable Form\""
+      ]
+   },
+   {
+      "Name": "MIT",
+      "Lines": [
+         "Permission is hereby granted, free of charge, to any person obtaining a copy",
+         "associated documentation files",
+         "(the \"Software\"), to deal",
+         "in the Software without restriction, including without limitation the rights",
+         "to use, copy, modify, merge, publish, distribute, sublicense, and/or sell",
+         "copies of the Software, and to permit persons to whom the Software is",
+         "furnished to do so, subject to the following conditions:"
+      ]
+   },
+   {
+      "Name": "ISC",
+      "Lines": [
+         "Permission to use, copy, modify",
+         "distribute this software for any",
+         "purpose with or without fee is hereby granted, provided that the above",
+         "copyright notice and this permission notice appear in all copies."
+      ]
+   },
+   {
+      "Name": "GNU Lesser General Public License Version 3.0",
+      "Lines": [
+         "This version of the GNU Lesser General Public License incorporates the terms and conditions of version 3 of the GNU General Public License, supplemented by the additional permissions listed below."
+      ]
+   },
+   {
+      "Name": "GNU Lesser General Public License Version 2.1",
+      "Lines": [
+         "The licenses for most software are designed to take away your freedom to share and change it.", 
+         "By contrast, the GNU General Public Licenses are intended to guarantee your freedom to share and change free software",
+         "to make sure the software is free for all its users."
+      ]
+   },
+   {
+      "Name": "GNU General Public License Version 3.0",
+      "Lines": [
+         "The licenses for most software and other practical works are designed to take away your freedom to share and change the works.", 
+         "By contrast, the GNU General Public License is intended to guarantee your freedom to share and change all versions of a program--to make sure it remains free software for all its users.", 
+         "We, the Free Software Foundation, use the GNU General Public License for most of our software;", 
+         "it applies also to any other work released this way by its authors. You can apply it to your programs, too."
+      ]
+   },
+   {
+      "Name": "GNU General Public License Version 2.0",
+      "Lines": [
+         "The licenses for most software are designed to take away your freedom to share and change it.",
+         "By contrast, the GNU General Public License is intended to guarantee your freedom to share and change free software--to make sure the software is free for all its users.",
+         "This General Public License applies to most of the Free Software Foundation's software and to any other program whose authors commit to using it.", 
+         "You can apply it to your programs, too."
+      ]
+   },
+   {
+      "Name": "GNU General Public License Version 1.0",
+      "Lines": [
+         "The license agreements of most software companies try to keep users",
+         "at the mercy of those companies.  By contrast, our General Public",
+         "License is intended to guarantee your freedom to share and change free",
+         "software--to make sure the software is free for all its users.  The",
+         "General Public License applies to the Free Software Foundation's",
+         "software and to any other program whose authors commit to using it.",
+         "You can use it for your programs, too."
+      ]
+   },
+   {
+      "Name": "GNU Free Documentation License 1.2",
+      "Lines": [
+         "The purpose of this License is to make a manual, textbook, or other functional and useful document \"free\" in the sense of freedom: to assure everyone the effective freedom to copy and redistribute it, with or without modifying it, either commercially or noncommercially. Secondarily, this License preserves for the author and publisher a way to get credit for their work, while not being considered responsible for modifications made by others."
+      ]
+   },
+   {
+      "Name": "GNU Free Documentation License 1.1",
+      "Lines": [
+         "The purpose of this License is to make a manual, textbook, or other written document \"free\" in the sense of freedom: to assure everyone the effective freedom to copy and redistribute it, with or without modifying it, either commercially or noncommercially. Secondarily, this License preserves for the author and publisher a way to get credit for their work, while not being considered responsible for modifications made by others."
+      ]
+   },
+   {
+      "Name": "FreeType Project",
+      "Lines": [
+         "The FreeType Project is distributed in several archive packages;",
+         "some of them may contain, in addition to the FreeType font engine,",
+         "various tools and contributions which rely on, or relate to, the",
+         "FreeType Project."
+      ]
+   },
+   {
+      "Name": "Eclipse Public",
+      "Lines": [
+         "THE ACCOMPANYING PROGRAM IS PROVIDED UNDER THE TERMS OF THIS ECLIPSE PUBLIC LICENSE (“AGREEMENT”). ANY USE, REPRODUCTION OR DISTRIBUTION OF THE PROGRAM CONSTITUTES RECIPIENT'S ACCEPTANCE OF THIS AGREEMENT.",
+         "1. DEFINITIONS",
+         "“Contribution” means:",
+         "a) in the case of the initial Contributor, the initial content Distributed under this Agreement, and",
+         "b) in the case of each subsequent Contributor:",
+         "i) changes to the Program, and",
+         "ii) additions to the Program;",
+         "where such changes and/or additions to the Program originate from and are Distributed by that particular Contributor. A Contribution “originates” from a Contributor if it was added to the Program by such Contributor itself or anyone acting on such Contributor's behalf. Contributions do not include changes or additions to the Program that are not Modified Works.",
+         "“Contributor” means any person or entity that Distributes the Program.",
+         "“Licensed Patents” mean patent claims licensable by a Contributor which are necessarily infringed by the use or sale of its Contribution alone or when combined with the Program.",
+         "“Program” means the Contributions Distributed in accordance with this Agreement.",
+         "“Recipient” means anyone who receives the Program under this Agreement or any Secondary License (as applicable), including Contributors.",
+         "“Derivative Works” shall mean any work, whether in Source Code or other form, that is based on (or derived from) the Program and for which the editorial revisions, annotations, elaborations, or other modifications represent, as a whole, an original work of authorship.",
+         "“Modified Works” shall mean any work in Source Code or other form that results from an addition to, deletion from, or modification of the contents of the Program, including, for purposes of clarity any new file in Source Code form that contains any contents of the Program. Modified Works shall not include works that contain only declarations, interfaces, types, classes, structures, or files of the Program solely in each case in order to link to, bind by name, or subclass the Program or Modified Works thereof.",
+         "“Distribute” means the acts of a) distributing or b) making available in any manner that enables the transfer of a copy.",
+         "“Source Code” means the form of a Program preferred for making modifications, including but not limited to software source code, documentation source, and configuration files.",
+         "“Secondary License” means either the GNU General Public License, Version 2.0, or any later versions of that license, including any exceptions or additional permissions as identified by the initial Contributor.",
+         "2. GRANT OF RIGHTS",
+         "a) Subject to the terms of this Agreement, each Contributor hereby grants Recipient a non-exclusive, worldwide, royalty-free copyright license to reproduce, prepare Derivative Works of, publicly display, publicly perform, Distribute and sublicense the Contribution of such Contributor, if any, and such Derivative Works.",
+         "b) Subject to the terms of this Agreement, each Contributor hereby grants Recipient a non-exclusive, worldwide, royalty-free patent license under Licensed Patents to make, use, sell, offer to sell, import and otherwise transfer the Contribution of such Contributor, if any, in Source Code or other form. This patent license shall apply to the combination of the Contribution and the Program if, at the time the Contribution is added by the Contributor, such addition of the Contribution causes such combination to be covered by the Licensed Patents. The patent license shall not apply to any other combinations which include the Contribution. No hardware per se is licensed hereunder.",
+         "c) Recipient understands that although each Contributor grants the licenses to its Contributions set forth herein, no assurances are provided by any Contributor that the Program does not infringe the patent or other intellectual property rights of any other entity. Each Contributor disclaims any liability to Recipient for claims brought by any other entity based on infringement of intellectual property rights or otherwise. As a condition to exercising the rights and licenses granted hereunder, each Recipient hereby assumes sole responsibility to secure any other intellectual property rights needed, if any. For example, if a third party patent license is required to allow Recipient to Distribute the Program, it is Recipient's responsibility to acquire that license before distributing the Program.",
+         "d) Each Contributor represents that to its knowledge it has sufficient copyright rights in its Contribution, if any, to grant the copyright license set forth in this Agreement.",
+         "e) Notwithstanding the terms of any Secondary License, no Contributor makes additional grants to any Recipient (other than those set forth in this Agreement) as a result of such Recipient's receipt of the Program under the terms of a Secondary License (if permitted under the terms of Section 3)."
+      ]
+   },
+   {
+      "Name": "Creative Commons Attribution 4.0 International Public License",
+      "Lines": [
+         "By exercising the Licensed Rights (defined below), You accept and agree to",
+         "be bound by the terms and conditions of this Creative Commons Attribution",
+         "4.0 International Public License"
+      ]
+   },
+   {
+      "Name": "CDDL",
+      "Lines": [
+         "COMMON DEVELOPMENT AND DISTRIBUTION LICENSE Version 1.0",
+         "1. Definitions.",
+         "1.1. Contributor means each individual or entity that creates or contributes to the creation of Modifications.",
+         "1.2. Contributor Version means the combination of the Original Software, prior Modifications used by a Contributor (if any), and the Modifications made by that particular Contributor.",
+         "1.3. Covered Software means (a) the Original Software, or (b) Modifications, or (c) the combination of files containing Original Software with files containing Modifications, in each case including portions thereof.",
+         "1.4. Executable means the Covered Software in any form other than Source Code.",
+         "1.5. Initial Developer means the individual or entity that first makes Original Software available under this License.",
+         "1.6. Larger Work means a work which combines Covered Software or portions thereof with code not governed by the terms of this License.",
+         "1.7. License means this document.",
+         "1.8. Licensable means having the right to grant, to the maximum extent possible, whether at the time of the initial grant or subsequently acquired, any and all of the rights conveyed herein.",
+         "1.9. Modifications means the Source Code and Executable form of any of the following:",
+         "A. Any file that results from an addition to, deletion from or modification of the contents of a file containing Original Software or previous Modifications;",
+         "B. Any new file that contains any part of the Original Software or previous Modification; or",
+         "C. Any new file that is contributed or otherwise made available under the terms of this License.",
+         "1.10. Original Software means the Source Code and Executable form of computer software code that is originally released under this License.",
+         "1.11. Patent Claims means any patent claim(s), now owned or hereafter acquired, including without limitation, method, process, and apparatus claims, in any patent Licensable by grantor.",
+         "1.12. Source Code means (a) the common form of computer software code in which modifications are made and (b) associated documentation included in or with such code.",
+         "1.13. You (or Your) means an individual or a legal entity exercising rights under, and complying with all of the terms of, this License. For legal entities, You includes any entity which controls, is controlled by, or is under common control with You. For purposes of this definition, control means (a) the power, direct or indirect, to cause the direction or management of such entity, whether by contract or otherwise, or (b) ownership of more than fifty percent (50%) of the outstanding shares or beneficial ownership of such entity."
+      ]
+   },
+   {
+      "Name": "CC0 1.0 Universal",
+      "Lines": [
+         "CREATIVE COMMONS CORPORATION IS NOT A LAW FIRM AND DOES NOT PROVIDE",
+         "LEGAL SERVICES. DISTRIBUTION OF THIS DOCUMENT DOES NOT CREATE AN",
+         "ATTORNEY-CLIENT RELATIONSHIP. CREATIVE COMMONS PROVIDES THIS",
+         "INFORMATION ON AN \"AS-IS\" BASIS. CREATIVE COMMONS MAKES NO WARRANTIES",
+         "REGARDING THE USE OF THIS DOCUMENT OR THE INFORMATION OR WORKS",
+         "PROVIDED HEREUNDER, AND DISCLAIMS LIABILITY FOR DAMAGES RESULTING FROM",
+         "THE USE OF THIS DOCUMENT OR THE INFORMATION OR WORKS PROVIDED",
+         "HEREUNDER."
+      ]
+   },
+   {
+      "Name": "Apache 2.0",
+      "Lines": [
+         "Apache License Version 2.0"
+      ]
+   },
+   {
+      "Name": "Apache 1.1",
+      "Lines": [
+         "The Apache Software License, Version 1.1"
+      ]
+   },
+   {
+      "Name": "Apache 1.0",
+      "Lines": [
+         "All advertising materials mentioning features or use of this",
+         "*    software must display the following acknowledgment:",
+         "*    \"This product includes software developed by the Apache Group",
+         "*    for use in the Apache HTTP server project (http://www.apache.org/).\""
+      ]
+   },
+   {
+      "Name": "BSD 4-Clause",
+      "Lines": [
+         "Redistribution and use in source and binary forms, with or without",
+         "modification, are permitted provided that the following conditions are met:",
+         "1. Redistributions of source code must retain the above copyright notice, this",
+         "   list of conditions and the following disclaimer.",
+         "2. Redistributions in binary form must reproduce the above copyright notice,",
+         "   this list of conditions and the following disclaimer in the documentation",
+         "   and/or other materials provided with the distribution.",
+         "3. All advertising materials mentioning features or use of this software must",
+         "   display the following acknowledgement:",
+         " This product includes software developed by",
+         "4. Neither the name of the copyright holder nor the names of its",
+         "   contributors may be used to endorse or promote products derived from",
+         "   this software without specific prior written permission."
+      ]
+   },
+   {
+      "Name": "BSD 3-Clause",
+      "Lines": [
+         "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:",
+         "1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.",
+         "2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.",
+         "3. Neither the name of",
+          "may be used to endorse or promote products derived from this software without specific prior written permission."
+      ]
+   },
+   {
+      "Name": "BSD 2-Clause",
+      "Lines": [
+         "Redistribution and use in source and binary forms, with or without",
+         "modification, are permitted provided that the following conditions are",
+         "1. Redistributions of source code must retain the above copyright notice, this",
+         "   list of conditions and the following disclaimer.",
+         "2. Redistributions in binary form must reproduce the above copyright notice,",
+         "   this list of conditions and the following disclaimer in the documentation",
+         "   other materials provided with the distribution.",
+         "THIS SOFTWARE IS PROVIDED BY THE",
+         "AND CONTRIBUTORS \"AS IS\"",
+         "AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE",
+         "IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE",
+         "DISCLAIMED. IN NO EVENT SHALL THE",
+         "OR CONTRIBUTORS BE LIABLE",
+         "FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL",
+         "DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR",
+         "SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER",
+         "CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,",
+         "OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE",
+         "OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+      ]
+   },
+   {
+      "Name": "BSD 1-Clause",
+      "Lines": [
+         "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:",
+         "Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.",
+         "THIS SOFTWARE IS PROVIDED BY",
+         "AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL",
+         "BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
+      ]
+   },
+   {
+      "Name": "BSD",
+      "Lines": [
+         "Permission to use, copy, modify, and/or distribute this software for any purpose",
+         "with or without fee is hereby granted.",
+         "THE SOFTWARE IS PROVIDED \"AS IS\" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH",
+         "REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND",
+         "FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,",
+         "INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS",
+         "OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER",
+         "TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF",
+         "THIS SOFTWARE."
+      ]
    }
+]
