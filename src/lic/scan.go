@@ -320,9 +320,12 @@ func (s *Scanner) checkExcluded(path, filename string) bool {
 func (s *Scanner) checkLicenses(bs []byte, path string) {
 	licDef := DefinitionFormat(string(bs))
 	classified := false
-	licenseHTMLPath := filepath.Base(path) + licPathCleanup(filepath.Dir(path), true) + ".html"
+	licensePath := filepath.Base(path) + licPathCleanup(filepath.Dir(path), true)
+	if s.ToHTML {
+		licensePath += ".html"
+	}
 	licInfo := licenseInfo{Filename: licPathCleanup(path, false),
-		Filepath:   fmt.Sprintf("Licenses/%s", licenseHTMLPath),
+		Filepath:   fmt.Sprintf("Licenses/%s", licensePath),
 		GitLink:    getLink(path),
 		GitLicense: s.GitLicense}
 	for _, def := range s.Licenses {
@@ -353,10 +356,13 @@ func (s *Scanner) checkLicenses(bs []byte, path string) {
 func (s *Scanner) scanOverride(path, ovrPath string) error {
 	licOvr := s.Override[ovrPath].License + " " + "OVERRIDE"
 	ovrFile := filepath.Join(path, s.Override[ovrPath].Filename)
-	htmlOvr := fmt.Sprintf("Licenses/%s", filepath.Base(s.Override[ovrPath].Filename)+licPathCleanup(filepath.Dir(ovrFile), true)+".html")
+	ovrFileName := fmt.Sprintf("Licenses/%s", filepath.Base(s.Override[ovrPath].Filename)+licPathCleanup(filepath.Dir(ovrFile), true))
+	if s.ToHTML {
+		ovrFileName += ".html"
+	}
 	licInfo := licenseInfo{
 		Filename:   licPathCleanup(ovrFile, false),
-		Filepath:   htmlOvr,
+		Filepath:   ovrFileName,
 		GitLink:    getLink(path),
 		GitLicense: s.GitLicense,
 	}

@@ -29,7 +29,7 @@ func TestLicTestRepoHtml(t *testing.T) {
 		t.Fatalf("FAILED SCAN: %v", err)
 	}
 	expected := map[string][]licenseInfo{}
-	exp, err := os.Open(filepath.Join("c:", string(filepath.Separator), "Users", "coold", "go", "src", "github.com", "JCPrice0024", "lic-col", "Config", "expectedresults.json"))
+	exp, err := os.Open(filepath.Join("c:", string(filepath.Separator), "Users", "coold", "go", "src", "github.com", "JCPrice0024", "lic-col", "Config", "expectedresultshtml.json"))
 	if err != nil {
 		log.Println(err)
 		t.Fatalf("FAILED TO OPEN: %v", err)
