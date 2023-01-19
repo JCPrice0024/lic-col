@@ -67,7 +67,7 @@ func initScanner(gopath, modpath, dstpath, gitUser, gitToken string, tohtml bool
 		return nil, err
 	}
 
-	licenses, err := initLicense(gopath)
+	licenses, err := InitLicense(gopath)
 	if err != nil {
 		return nil, err
 	}
@@ -129,41 +129,6 @@ func (s *Scanner) dependencyCheck(d string) string {
 		return ""
 	}
 	return path
-}
-
-// scanOverride scans all overrided files and creates the copies for them. It will be a .html file if -tohtml is used
-// in the Command Line Args.
-func (s *Scanner) scanOverride(path, ovrPath string) error {
-	licOvr := s.Override[ovrPath].License + " " + "OVERRIDE"
-	ovrFile := filepath.Join(path, s.Override[ovrPath].Filename)
-	htmlOvr := fmt.Sprintf("Licenses/%s", filepath.Base(s.Override[ovrPath].Filename)+licPathCleanup(filepath.Dir(ovrFile), true)+".html")
-	_, ok := s.LicenseType[licOvr]
-	if !ok {
-		s.LicenseType[licOvr] = []licenseInfo{{
-			Filename:   licPathCleanup(ovrFile, false),
-			Filepath:   htmlOvr,
-			GitLink:    getLink(path),
-			GitLicense: s.GitLicense}}
-	} else {
-		s.LicenseType[licOvr] = append(s.LicenseType[licOvr], licenseInfo{
-			Filename:   licPathCleanup(ovrFile, false),
-			Filepath:   htmlOvr,
-			GitLink:    getLink(path),
-			GitLicense: s.GitLicense})
-	}
-	bs, err := os.ReadFile(ovrFile)
-	if err != nil {
-		return fmt.Errorf("unable to read file: %w", err)
-	}
-	if s.ToHTML {
-		err = s.createHTMLLicense(ovrFile, bs)
-	} else {
-		err = s.createLicFolder(ovrFile, bs)
-	}
-	if err != nil {
-		return err
-	}
-	return nil
 }
 
 // getGitParts takes in a path that has github.com in it. It then splits the
@@ -312,7 +277,9 @@ func (s *Scanner) fileWalk(path string, info fs.FileInfo, err error) error {
 	}
 	s.Licensecanned = true
 
-	s.checkExcluded(path, info.Name())
+	if s.checkExcluded(path, info.Name()) {
+		return nil
+	}
 
 	if info.IsDir() {
 		return nil
@@ -351,20 +318,24 @@ func (s *Scanner) checkExcluded(path, filename string) bool {
 
 // checkLicenses checks the given license to see if it matches any of our defined licenses.
 func (s *Scanner) checkLicenses(bs []byte, path string) {
-	licDef := definitionFormat(string(bs))
+	licDef := DefinitionFormat(string(bs))
 	classified := false
-	licenseHTMLPath := filepath.Base(path) + licPathCleanup(filepath.Dir(path), true) + ".html"
+	licensePath := filepath.Base(path) + licPathCleanup(filepath.Dir(path), true)
+	if s.ToHTML {
+		licensePath += ".html"
+	}
 	licInfo := licenseInfo{Filename: licPathCleanup(path, false),
-		Filepath:   fmt.Sprintf("Licenses/%s", licenseHTMLPath),
+		Filepath:   fmt.Sprintf("Licenses/%s", licensePath),
 		GitLink:    getLink(path),
 		GitLicense: s.GitLicense}
-	for license, def := range s.Licenses {
-		if strings.Contains(licDef, def) {
-			_, ok := s.LicenseType[license]
+	for _, def := range s.Licenses {
+		matchesAll := TestLicense(licDef, def, false)
+		if matchesAll {
+			_, ok := s.LicenseType[def.Name]
 			if !ok {
-				s.LicenseType[license] = []licenseInfo{licInfo}
+				s.LicenseType[def.Name] = []licenseInfo{licInfo}
 			} else {
-				s.LicenseType[license] = append(s.LicenseType[license], licInfo)
+				s.LicenseType[def.Name] = append(s.LicenseType[def.Name], licInfo)
 			}
 			classified = true
 			break
@@ -378,4 +349,57 @@ func (s *Scanner) checkLicenses(bs []byte, path string) {
 			s.LicenseType[unknownLicense] = append(s.LicenseType[unknownLicense], licInfo)
 		}
 	}
+}
+
+// scanOverride scans all overrided files and creates the copies for them. It will be a .html file if -tohtml is used
+// in the Command Line Args.
+func (s *Scanner) scanOverride(path, ovrPath string) error {
+	licOvr := s.Override[ovrPath].License + " " + "OVERRIDE"
+	ovrFile := filepath.Join(path, s.Override[ovrPath].Filename)
+	ovrFileName := fmt.Sprintf("Licenses/%s", filepath.Base(s.Override[ovrPath].Filename)+licPathCleanup(filepath.Dir(ovrFile), true))
+	if s.ToHTML {
+		ovrFileName += ".html"
+	}
+	licInfo := licenseInfo{
+		Filename:   licPathCleanup(ovrFile, false),
+		Filepath:   ovrFileName,
+		GitLink:    getLink(path),
+		GitLicense: s.GitLicense,
+	}
+
+	_, ok := s.LicenseType[licOvr]
+	if !ok {
+		s.LicenseType[licOvr] = []licenseInfo{licInfo}
+	} else {
+		s.LicenseType[licOvr] = append(s.LicenseType[licOvr], licInfo)
+	}
+	bs, err := os.ReadFile(ovrFile)
+	if err != nil {
+		return fmt.Errorf("unable to read file: %w", err)
+	}
+	if s.ToHTML {
+		err = s.createHTMLLicense(ovrFile, bs)
+	} else {
+		err = s.createLicFolder(ovrFile, bs)
+	}
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// TestLicense is a function to help track down the differences between a license file and one of the defined
+// licenses.
+func TestLicense(licDef string, def definedLicense, debug bool) (matchesAll bool) {
+	matchesAll = true
+	for _, line := range def.Lines {
+		if !strings.Contains(licDef, line) {
+			matchesAll = false
+			if debug {
+				log.Printf("Inside test license line failed: line: %v license: %v ", line, def.Name)
+			}
+			break
+		}
+	}
+	return
 }
